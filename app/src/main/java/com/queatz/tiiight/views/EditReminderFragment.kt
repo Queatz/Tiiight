@@ -41,7 +41,7 @@ class EditReminderFragment : Fragment() {
     private var isQuickEdit: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        inflater.inflate(R.layout.activity_edit_reminder, container, false)
+        inflater.inflate(R.layout.activity_edit_reminder, container, false)!!
 
     override fun onResume() {
         super.onResume()
@@ -103,6 +103,7 @@ class EditReminderFragment : Fragment() {
                 cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
 
                 it.date = cal.time
+                it.done = false
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
 
                 calendarViewLayout.visibility = View.GONE
@@ -119,6 +120,7 @@ class EditReminderFragment : Fragment() {
                 cal.set(Calendar.MINUTE, minute)
 
                 it.date = cal.time
+                it.done = false
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
                 showTime(it.date)
 
@@ -145,6 +147,7 @@ class EditReminderFragment : Fragment() {
 
             val adapter = ReminderTimeShortcutAdapter { date ->
                 it.date = date
+                it.done = false
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
                 showTime(it.date)
 

@@ -4,6 +4,6 @@ import io.objectbox.annotation.Entity
 import java.util.*
 
 @Entity
-data class SettingsModel(
+data class SettingsModel constructor(
     var lastDate: Date = Date()
 ) : BaseModel()

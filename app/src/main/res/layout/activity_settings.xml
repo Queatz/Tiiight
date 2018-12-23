@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/background"
+        android:clickable="true">
+
+    <Button style="@android:style/Widget.Material.Button.Colored"
+            android:id="@+id/viewArchive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/padDouble"
+            android:drawablePadding="@dimen/pad"
+            android:drawableStart="@drawable/ic_archive_black_24dp"
+            android:drawableTint="@color/white"
+            android:text="@string/archived_notes"/>
+
+    <Button style="@android:style/Widget.Material.Button"
+            android:id="@+id/sendFeedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/viewArchive"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/padDouble"
+            android:drawablePadding="@dimen/pad"
+            android:drawableStart="@drawable/ic_email_black_24dp"
+            android:drawableTint="@color/textHeader"
+            android:text="@string/send_feedback"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

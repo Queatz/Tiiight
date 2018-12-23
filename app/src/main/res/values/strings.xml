@@ -8,4 +8,8 @@
     <string name="this_week">This week</string>
     <string name="later">Later</string>
     <string name="custom">Custom</string>
+    <string name="edit_reminder">Edit reminder</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="archived_notes">Archived notes</string>
+    <string name="archive">Archive</string>
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +24,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private var remindersSubscription: DataSubscription? = null
+    private var settingsButton: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +87,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        settingsButton = menu.findItem(R.id.action_settings)
+        settingsButton?.isVisible = supportFragmentManager.backStackEntryCount <= 0
+
         return true
     }
 
@@ -94,30 +99,44 @@ class MainActivity : AppCompatActivity() {
                 onBackPressed()
                 true
             }
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                showFragment(SettingsFragment.create(), getString(R.string.action_settings))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {
+        showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit), getString(R.string.edit_reminder))
+    }
+
+    internal fun showFragment(fragment: Fragment, name: String? = null) {
         supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .add(
-                R.id.content,
-                EditReminderFragment.create(reminder.objectBoxId, quickEdit)
-            )
+            .addToBackStack(name)
+            .add(R.id.content, fragment)
             .commit()
         supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
+            reminders.post { refreshUpButton() }
         }
     }
 
     private fun refreshUpButton() {
+        val hasBackStack = supportFragmentManager.backStackEntryCount > 0
+
         supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
-            setDisplayShowHomeEnabled(supportFragmentManager.backStackEntryCount > 0)
+            title = if (hasBackStack) {
+                supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name ?: getString(R.string.app_name)
+            } else {
+                getString(R.string.app_name)
+            }
+
+            setDisplayHomeAsUpEnabled(hasBackStack)
+            setDisplayShowHomeEnabled(hasBackStack)
         }
+        invalidateOptionsMenu()
+
+        if (hasBackStack) fab.hide() else fab.show()
     }
 }
 

@@ -37,6 +37,10 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
             diffResult.dispatchUpdatesTo(this)
         }
 
+    var mainActionIconResId: Int = R.drawable.ic_check_black_24dp
+
+    var pastRemindersSectionHeaderName: Int = R.string.today
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_reminder, parent, false)
@@ -71,7 +75,7 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
         val now = Date()
 
         if (now.after(reminder.date)) {
-            return resources.getString(R.string.today)
+            return resources.getString(pastRemindersSectionHeaderName)
         }
 
         if (DateUtils.isToday(reminder.date.time)) {
@@ -153,7 +157,7 @@ class SwipeOptions constructor(private val adapter: ReminderAdapter,
                 paint.color = resources.getColor(R.color.remove)
                 val background = RectF(viewRect.left, viewRect.top, dX, viewRect.bottom)
                 c.drawRect(background, paint)
-                icon = resources.getDrawable(R.drawable.ic_check_black_24dp).toBitmap(resources.getColor(
+                icon = resources.getDrawable(adapter.mainActionIconResId).toBitmap(resources.getColor(
                     R.color.white
                 ))
                 val iconRect = RectF(
