@@ -23,22 +23,29 @@ class EditReminderFragment : Fragment() {
 
     companion object {
         private const val REMINDER_ID = "reminder"
+        private const val QUICK_EDIT = "quickEdit"
 
-        fun create(id: Long): EditReminderFragment {
+        fun create(id: Long, quickEdit: Boolean): EditReminderFragment {
             val fragment = EditReminderFragment()
             fragment.arguments = Bundle()
             fragment.arguments?.putLong(REMINDER_ID, id)
+            fragment.arguments?.putBoolean(QUICK_EDIT, quickEdit)
             return fragment
         }
     }
+
+    private var isQuickEdit: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.activity_edit_reminder, container, false)
 
     override fun onResume() {
         super.onResume()
-        reminderText.requestFocus()
-        reminderText.showKeyboard(true)
+
+        if (!isQuickEdit) {
+            reminderText.requestFocus()
+            reminderText.showKeyboard(true)
+        }
     }
 
     override fun onPause() {
@@ -46,9 +53,11 @@ class EditReminderFragment : Fragment() {
         reminderText.showKeyboard(false)
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         arguments?.getLong(REMINDER_ID, -1).takeIf { it != -1L }?.let { setReminderId(it) }
+        isQuickEdit = arguments?.getBoolean(QUICK_EDIT, false) ?: false
 
         reminderText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -60,7 +69,7 @@ class EditReminderFragment : Fragment() {
         setTimeButton.setOnClickListener {
             reminderText.showKeyboard(false)
 
-            if (calendarViewLayout.visibility == View.VISIBLE || timeView.visibility == View.VISIBLE) {
+            if (calendarViewLayout.visible || timeView.visible) {
                 calendarViewLayout.visibility = View.GONE
                 timeView.visibility = View.GONE
             } else {
@@ -96,7 +105,7 @@ class EditReminderFragment : Fragment() {
                 timeView.visibility = View.VISIBLE
                 showTime(it.date)
 
-                if (calendarViewLayout.visibility == View.VISIBLE || timeView.visibility == View.VISIBLE) {
+                if (calendarViewLayout.visible || timeView.visible) {
                     saveLastDate(it.date)
                 }
             }
@@ -109,7 +118,7 @@ class EditReminderFragment : Fragment() {
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
                 showTime(it.date)
 
-                if (calendarViewLayout.visibility == View.VISIBLE || timeView.visibility == View.VISIBLE) {
+                if (calendarViewLayout.visible || timeView.visible) {
                     saveLastDate(it.date)
                 }
             }
@@ -134,6 +143,10 @@ class EditReminderFragment : Fragment() {
                 it.date = date
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
                 showTime(it.date)
+
+                if (isQuickEdit) {
+                    view?.post { activity?.onBackPressed() }
+                }
             }
 
             reminderTimeShortcuts.adapter = adapter

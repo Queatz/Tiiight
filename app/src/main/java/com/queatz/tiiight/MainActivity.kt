@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 .show()
         }, {
-            edit(it)
+            edit(it, true)
         }, { reminder, other ->
             reminder.date = other.date
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
@@ -97,10 +97,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun edit(reminder: ReminderModel) {
+    private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.content, EditReminderFragment.create(reminder.objectBoxId))
+            .add(R.id.content, EditReminderFragment.create(reminder.objectBoxId, quickEdit))
             .commit()
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
