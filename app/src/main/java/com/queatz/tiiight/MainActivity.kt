@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             edit(reminder)
         }
 
-        val adapter = ReminderAdapter({ edit(it) })
+        val adapter = ReminderAdapter({ edit(it) }, resources)
         reminders.adapter = adapter
         reminders.layoutManager = LinearLayoutManager(this)
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         remindersSubscription = app.on(DataManager::class).box(ReminderModel::class).query()
             .notEqual(ReminderModel_.text, "")
             .equal(ReminderModel_.done, false)
-            .sort { o1, o2 -> o2.date.compareTo(o1.date) }
+            .sort { o1, o2 -> o1.date.compareTo(o2.date) }
             .build()
             .subscribe()
             .on(AndroidScheduler.mainThread())

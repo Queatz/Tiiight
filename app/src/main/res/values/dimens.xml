@@ -4,4 +4,5 @@
     <dimen name="padDouble">16dp</dimen>
     <dimen name="elevation">1dp</dimen>
     <dimen name="textSize">18sp</dimen>
+    <dimen name="textSizeSmall">14sp</dimen>
 </resources>

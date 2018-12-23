@@ -1,25 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
         android:clickable="true">
-
-    <EditText
-            android:id="@+id/reminderText"
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:hint="@string/edit_reminder_hint"
-            android:textSize="@dimen/textSize"
-            android:textColor="@color/text"
-            android:padding="@dimen/padDouble"
-            android:background="@color/white"
-            android:imeOptions="actionDone"
-            android:maxLines="1"
-            android:focusedByDefault="true"
-            android:elevation="@dimen/elevation"/>
+            android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+                android:id="@+id/reminderText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:hint="@string/edit_reminder_hint"
+                android:textSize="@dimen/textSize"
+                android:textColor="@color/text"
+                android:padding="@dimen/padDouble"
+                android:background="@color/white"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences"
+                android:lines="1"
+                android:focusedByDefault="true"
+                android:elevation="@dimen/elevation"/>
+
+        <Button style="@android:style/Widget.Material.Button.Colored"
+                android:id="@+id/setTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/reminderText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/calendarViewLayout"
+                android:layout_margin="@dimen/padDouble"
+                android:text="@string/set_reminder"/>
+
+        <TextView android:id="@+id/reminderDate"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/pad"
+                  app:layout_constraintStart_toEndOf="@+id/setTimeButton"
+                  app:layout_constraintTop_toTopOf="@+id/setTimeButton"
+                  app:layout_constraintBottom_toBottomOf="@+id/setTimeButton"
+                  android:textSize="@dimen/textSizeSmall"
+                  android:textAllCaps="true"
+                  android:textColor="@color/textHeader"
+                  tools:text="Monday"/>
+
+        <FrameLayout android:id="@+id/calendarViewLayout"
+                android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     app:layout_constraintTop_toBottomOf="@+id/setTimeButton"
+                     app:layout_constraintBottom_toTopOf="@+id/timeView"
+                     android:visibility="gone"
+                     tools:visibility="visible">
+
+            <CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+        </FrameLayout>
+
+        <TimePicker
+                android:id="@+id/timeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/calendarViewLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

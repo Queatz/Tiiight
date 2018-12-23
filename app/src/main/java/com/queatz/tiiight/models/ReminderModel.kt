@@ -5,7 +5,7 @@ import java.util.*
 
 @Entity
 data class ReminderModel(
-    var text: String,
-    var done: Boolean,
-    var date: Date
+    var text: String = "",
+    var done: Boolean = false,
+    var date: Date = Date()
 ) : BaseModel()

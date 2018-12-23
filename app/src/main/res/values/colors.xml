@@ -8,4 +8,5 @@
     <color name="remove">#3C972A</color>
     <color name="modify">#DFA82B</color>
     <color name="background">#F2F2F2</color>
+    <color name="textHeader">#828282</color>
 </resources>
