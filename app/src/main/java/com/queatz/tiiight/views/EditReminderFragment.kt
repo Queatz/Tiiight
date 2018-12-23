@@ -1,4 +1,4 @@
-package com.queatz.tiiight
+package com.queatz.tiiight.views
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,9 +9,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.managers.SettingsManager
 import com.queatz.tiiight.models.ReminderModel
+import com.queatz.tiiight.on
+import com.queatz.tiiight.showKeyboard
+import com.queatz.tiiight.visible
 import kotlinx.android.synthetic.main.activity_edit_reminder.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -153,9 +157,15 @@ class EditReminderFragment : Fragment() {
 
             val items = mutableListOf<ReminderTimeShortcutItem>()
 
-            items.add(ReminderTimeShortcutItem(R.drawable.ic_schedule_black_24dp, "In 1 hour", Calendar.getInstance().apply {
-                add(Calendar.HOUR, 1)
-            }.time))
+            items.add(
+                ReminderTimeShortcutItem(
+                    R.drawable.ic_schedule_black_24dp,
+                    "In 1 hour",
+                    Calendar.getInstance().apply {
+                        add(Calendar.HOUR, 1)
+                    }.time
+                )
+            )
 
             Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, 19)
@@ -164,50 +174,86 @@ class EditReminderFragment : Fragment() {
                 set(Calendar.MILLISECOND, 0)
             }.time.let {
                 if (Date().before(it)) {
-                    items.add(ReminderTimeShortcutItem(R.drawable.ic_brightness_3_black_24dp, "Tonight", it))
+                    items.add(
+                        ReminderTimeShortcutItem(
+                            R.drawable.ic_brightness_3_black_24dp,
+                            "Tonight",
+                            it
+                        )
+                    )
                 }
             }
 
-            items.add(ReminderTimeShortcutItem(R.drawable.ic_arrow_forward_black_24dp, "Tomorrow", Calendar.getInstance().apply {
-                add(Calendar.DATE, 1)
-                set(Calendar.HOUR_OF_DAY, 5)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.time))
-            items.add(ReminderTimeShortcutItem(R.drawable.ic_fast_forward_black_24dp, "In 2 days", Calendar.getInstance().apply {
-                add(Calendar.DATE, 2)
-                set(Calendar.HOUR_OF_DAY, 5)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.time))
-            items.add(ReminderTimeShortcutItem(R.drawable.ic_weekend_black_24dp, "Next weekend", Calendar.getInstance().apply {
-                set(Calendar.DAY_OF_WEEK, 7)
-                set(Calendar.HOUR_OF_DAY, 5)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
+            items.add(
+                ReminderTimeShortcutItem(
+                    R.drawable.ic_arrow_forward_black_24dp,
+                    "Tomorrow",
+                    Calendar.getInstance().apply {
+                        add(Calendar.DATE, 1)
+                        set(Calendar.HOUR_OF_DAY, 5)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }.time
+                )
+            )
+            items.add(
+                ReminderTimeShortcutItem(
+                    R.drawable.ic_fast_forward_black_24dp,
+                    "In 2 days",
+                    Calendar.getInstance().apply {
+                        add(Calendar.DATE, 2)
+                        set(Calendar.HOUR_OF_DAY, 5)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }.time
+                )
+            )
+            items.add(
+                ReminderTimeShortcutItem(
+                    R.drawable.ic_weekend_black_24dp,
+                    "Next weekend",
+                    Calendar.getInstance().apply {
+                        set(Calendar.DAY_OF_WEEK, 7)
+                        set(Calendar.HOUR_OF_DAY, 5)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
 
-                if (Date().after(time)) {
-                    add(Calendar.WEEK_OF_YEAR, 1)
-                }
-            }.time))
-            items.add(ReminderTimeShortcutItem(R.drawable.ic_wb_sunny_black_24dp, "Next Monday", Calendar.getInstance().apply {
-                set(Calendar.DAY_OF_WEEK, 2)
-                set(Calendar.HOUR_OF_DAY, 5)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
+                        if (Date().after(time)) {
+                            add(Calendar.WEEK_OF_YEAR, 1)
+                        }
+                    }.time
+                )
+            )
+            items.add(
+                ReminderTimeShortcutItem(
+                    R.drawable.ic_wb_sunny_black_24dp,
+                    "Next Monday",
+                    Calendar.getInstance().apply {
+                        set(Calendar.DAY_OF_WEEK, 2)
+                        set(Calendar.HOUR_OF_DAY, 5)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
 
-                if (Date().after(time)) {
-                    add(Calendar.WEEK_OF_YEAR, 1)
-                }
-            }.time))
+                        if (Date().after(time)) {
+                            add(Calendar.WEEK_OF_YEAR, 1)
+                        }
+                    }.time
+                )
+            )
 
             app.on(SettingsManager::class).settings.lastDate.let {
                 if (Date().before(it)) {
-                    items.add(ReminderTimeShortcutItem(R.drawable.ic_replay_black_24dp, "Last", it))
+                    items.add(
+                        ReminderTimeShortcutItem(
+                            R.drawable.ic_replay_black_24dp,
+                            "Last",
+                            it
+                        )
+                    )
                 }
             }
 

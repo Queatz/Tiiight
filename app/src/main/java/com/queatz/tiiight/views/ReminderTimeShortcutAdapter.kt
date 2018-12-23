@@ -1,4 +1,4 @@
-package com.queatz.tiiight
+package com.queatz.tiiight.views
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
+import com.queatz.tiiight.R
 import kotlinx.android.synthetic.main.item_reminder_time_shortcut.view.*
 import java.util.*
 
@@ -21,8 +22,14 @@ class ReminderTimeShortcutAdapter(private val onDate: (Date) -> Unit) : Recycler
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ReminderTimeShortcutAdapter.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_reminder_time_shortcut, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_reminder_time_shortcut,
+                parent,
+                false
+            )
+        )
 
     override fun getItemCount() = items.size
 

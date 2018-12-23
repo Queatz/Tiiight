@@ -1,4 +1,4 @@
-package com.queatz.tiiight
+package com.queatz.tiiight.views
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.ContextManager
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
+import com.queatz.tiiight.on
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.reactive.DataSubscription
 import kotlinx.android.synthetic.main.activity_main.*
@@ -100,7 +102,10 @@ class MainActivity : AppCompatActivity() {
     private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .add(R.id.content, EditReminderFragment.create(reminder.objectBoxId, quickEdit))
+            .add(
+                R.id.content,
+                EditReminderFragment.create(reminder.objectBoxId, quickEdit)
+            )
             .commit()
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)

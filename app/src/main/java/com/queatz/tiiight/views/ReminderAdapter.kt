@@ -1,4 +1,4 @@
-package com.queatz.tiiight
+package com.queatz.tiiight.views
 
 import android.content.res.Resources
 import android.graphics.Bitmap
@@ -12,7 +12,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.queatz.tiiight.R
 import com.queatz.tiiight.models.ReminderModel
+import com.queatz.tiiight.toBitmap
 import kotlinx.android.synthetic.main.item_reminder.view.*
 import java.util.*
 
@@ -35,13 +37,14 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
             diffResult.dispatchUpdatesTo(this)
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ReminderAdapter.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_reminder, parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_reminder, parent, false)
+        )
 
     override fun getItemCount() = items.size
 
-    override fun onBindViewHolder(holder: ReminderAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reminder = items[position]
         holder.text.text = reminder.text
         holder.itemView.setOnClickListener { openCallback.invoke(reminder) }
@@ -150,7 +153,9 @@ class SwipeOptions constructor(private val adapter: ReminderAdapter,
                 paint.color = resources.getColor(R.color.remove)
                 val background = RectF(viewRect.left, viewRect.top, dX, viewRect.bottom)
                 c.drawRect(background, paint)
-                icon = resources.getDrawable(R.drawable.ic_check_black_24dp).toBitmap(resources.getColor(R.color.white))
+                icon = resources.getDrawable(R.drawable.ic_check_black_24dp).toBitmap(resources.getColor(
+                    R.color.white
+                ))
                 val iconRect = RectF(
                     viewRect.left + xOffset,
                     viewRect.top + height / 2 - icon.height / 2,
@@ -161,7 +166,9 @@ class SwipeOptions constructor(private val adapter: ReminderAdapter,
                 paint.color = resources.getColor(R.color.modify)
                 val background = RectF(viewRect.right + dX, viewRect.top, viewRect.right, viewRect.bottom)
                 c.drawRect(background, paint)
-                icon = resources.getDrawable(R.drawable.ic_edit_black_24dp).toBitmap(resources.getColor(R.color.white))
+                icon = resources.getDrawable(R.drawable.ic_edit_black_24dp).toBitmap(resources.getColor(
+                    R.color.white
+                ))
                 val iconRect = RectF(
                     viewRect.right - icon.width - xOffset,
                     viewRect.top + height / 2 - icon.height / 2,
