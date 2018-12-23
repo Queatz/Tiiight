@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.queatz.tiiight.managers.DataManager
+import com.queatz.tiiight.managers.SettingsManager
 import com.queatz.tiiight.models.ReminderModel
 import kotlinx.android.synthetic.main.activity_edit_reminder.*
 import java.text.SimpleDateFormat
@@ -66,6 +68,8 @@ class EditReminderFragment : Fragment() {
                 timeView.visibility = View.GONE
             }
         }
+
+        reminderTimeShortcuts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun setReminderId(id: Long) {
@@ -73,9 +77,9 @@ class EditReminderFragment : Fragment() {
         reminder?.let {
 
             val cal = Calendar.getInstance()
-            cal.time = reminder.date
+            cal.time = it.date
 
-            calendarView.date = reminder.date.time
+            calendarView.date = it.date.time
 
             timeView.currentHour = cal.get(Calendar.HOUR_OF_DAY)
             timeView.currentMinute = cal.get(Calendar.MINUTE)
@@ -90,7 +94,11 @@ class EditReminderFragment : Fragment() {
 
                 calendarViewLayout.visibility = View.GONE
                 timeView.visibility = View.VISIBLE
-                showTime(reminder.date)
+                showTime(it.date)
+
+                if (calendarViewLayout.visibility == View.VISIBLE || timeView.visibility == View.VISIBLE) {
+                    saveLastDate(it.date)
+                }
             }
 
             timeView.setOnTimeChangedListener { _, hourOfDay, minute ->
@@ -99,10 +107,14 @@ class EditReminderFragment : Fragment() {
 
                 it.date = cal.time
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
-                showTime(reminder.date)
+                showTime(it.date)
+
+                if (calendarViewLayout.visibility == View.VISIBLE || timeView.visibility == View.VISIBLE) {
+                    saveLastDate(it.date)
+                }
             }
 
-            showTime(reminder.date)
+            showTime(it.date)
 
             reminderText.setText(it.text)
             reminderText.addTextChangedListener(object : TextWatcher {
@@ -117,6 +129,94 @@ class EditReminderFragment : Fragment() {
                     app.on(DataManager::class).box(ReminderModel::class).put(it)
                 }
             })
+
+            val adapter = ReminderTimeShortcutAdapter { date ->
+                it.date = date
+                app.on(DataManager::class).box(ReminderModel::class).put(it)
+                showTime(it.date)
+            }
+
+            reminderTimeShortcuts.adapter = adapter
+
+            val items = mutableListOf<ReminderTimeShortcutItem>()
+
+            items.add(ReminderTimeShortcutItem(R.drawable.ic_schedule_black_24dp, "In 1 hour", Calendar.getInstance().apply {
+                add(Calendar.HOUR, 1)
+            }.time))
+
+            Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 19)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.time.let {
+                if (Date().before(it)) {
+                    items.add(ReminderTimeShortcutItem(R.drawable.ic_brightness_3_black_24dp, "Tonight", it))
+                }
+            }
+
+            items.add(ReminderTimeShortcutItem(R.drawable.ic_arrow_forward_black_24dp, "Tomorrow", Calendar.getInstance().apply {
+                add(Calendar.DATE, 1)
+                set(Calendar.HOUR_OF_DAY, 5)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.time))
+            items.add(ReminderTimeShortcutItem(R.drawable.ic_fast_forward_black_24dp, "In 2 days", Calendar.getInstance().apply {
+                add(Calendar.DATE, 2)
+                set(Calendar.HOUR_OF_DAY, 5)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }.time))
+            items.add(ReminderTimeShortcutItem(R.drawable.ic_weekend_black_24dp, "Next weekend", Calendar.getInstance().apply {
+                set(Calendar.DAY_OF_WEEK, 7)
+                set(Calendar.HOUR_OF_DAY, 5)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+
+                if (Date().after(time)) {
+                    add(Calendar.WEEK_OF_YEAR, 1)
+                }
+            }.time))
+            items.add(ReminderTimeShortcutItem(R.drawable.ic_wb_sunny_black_24dp, "Next Monday", Calendar.getInstance().apply {
+                set(Calendar.DAY_OF_WEEK, 2)
+                set(Calendar.HOUR_OF_DAY, 5)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+
+                if (Date().after(time)) {
+                    add(Calendar.WEEK_OF_YEAR, 1)
+                }
+            }.time))
+
+            app.on(SettingsManager::class).settings.lastDate.let {
+                if (Date().before(it)) {
+                    items.add(ReminderTimeShortcutItem(R.drawable.ic_replay_black_24dp, "Last", it))
+                }
+            }
+
+            items.sortBy { it.date }
+
+            var i = 1
+            while (i < items.size) {
+                if (items[i - 1].date == items[i].date) {
+                    items.removeAt(i)
+                } else {
+                    i++
+                }
+            }
+
+            adapter.items = items
+        }
+    }
+
+    private fun saveLastDate(date: Date) {
+        app.on(SettingsManager::class).settings.apply {
+            lastDate = date
+            app.on(SettingsManager::class).settings = this
         }
     }
 

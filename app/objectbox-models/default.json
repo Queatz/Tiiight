@@ -34,9 +34,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:6873454790557635974",
+      "lastPropertyId": "4:5769408272276524617",
+      "name": "SettingsModel",
+      "properties": [
+        {
+          "id": "1:2731502656582069786",
+          "name": "objectBoxId"
+        },
+        {
+          "id": "2:854844617381630665",
+          "name": "created"
+        },
+        {
+          "id": "3:164063311344127353",
+          "name": "updated"
+        },
+        {
+          "id": "4:5769408272276524617",
+          "name": "lastDate"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:5513493799099266228",
+  "lastEntityId": "2:6873454790557635974",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

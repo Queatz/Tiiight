@@ -28,15 +28,25 @@
                 android:focusedByDefault="true"
                 android:elevation="@dimen/elevation"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reminderTimeShortcuts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/reminderText"
+                app:layout_constraintBottom_toTopOf="@+id/setTimeButton"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/item_reminder_time_shortcut"
+                android:overScrollMode="ifContentScrolls" />
+
         <Button style="@android:style/Widget.Material.Button.Colored"
                 android:id="@+id/setTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/reminderText"
+                app:layout_constraintTop_toBottomOf="@+id/reminderTimeShortcuts"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/calendarViewLayout"
                 android:layout_margin="@dimen/padDouble"
-                android:text="@string/set_reminder"/>
+                android:text="@string/custom"/>
 
         <TextView android:id="@+id/reminderDate"
                   android:layout_width="wrap_content"

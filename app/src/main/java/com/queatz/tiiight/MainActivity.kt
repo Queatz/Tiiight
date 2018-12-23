@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
                     app.on(DataManager::class).box(ReminderModel::class).put(reminder)
                 }
                 .show()
-        }, {}, { reminder, other ->
+        }, {
+            edit(it)
+        }, { reminder, other ->
             reminder.date = other.date
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
         })).attachToRecyclerView(reminders)
@@ -64,28 +66,19 @@ class MainActivity : AppCompatActivity() {
             .observer { adapter.items = it }
     }
 
-    private fun edit(reminder: ReminderModel) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .add(R.id.content, EditReminderFragment.create(reminder.objectBoxId))
-            .commit()
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
-        }
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
-            setDisplayShowHomeEnabled(supportFragmentManager.backStackEntryCount > 0)
-        }
+    override fun onResume() {
+        super.onResume()
+        refreshUpButton()
     }
 
     override fun onDestroy() {
         remindersSubscription?.cancel()
         super.onDestroy()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        refreshUpButton()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -101,6 +94,24 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun edit(reminder: ReminderModel) {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .add(R.id.content, EditReminderFragment.create(reminder.objectBoxId))
+            .commit()
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+    }
+
+    private fun refreshUpButton() {
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
+            setDisplayShowHomeEnabled(supportFragmentManager.backStackEntryCount > 0)
         }
     }
 }

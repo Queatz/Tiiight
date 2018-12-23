@@ -7,5 +7,5 @@
     <string name="later_today">Later today</string>
     <string name="this_week">This week</string>
     <string name="later">Later</string>
-    <string name="set_reminder">Set reminder</string>
+    <string name="custom">Custom</string>
 </resources>
