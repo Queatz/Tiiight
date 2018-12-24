@@ -49,7 +49,7 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val reminder = items[position]
         holder.text.text = reminder.text
-        holder.itemView.setOnClickListener { openCallback.invoke(reminder) }
+        holder.text.setOnClickListener { openCallback.invoke(reminder) }
 
         val header = getSectionHeader(reminder)
 
@@ -83,6 +83,18 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
             return resources.getString(R.string.later_today)
         }
 
+        val twoDays = Calendar.getInstance().apply {
+            add(Calendar.DATE, 2)
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+
+        if (reminder.date.before(twoDays)) {
+            return resources.getString(R.string.tomorrow)
+        }
+
         val cal1 = Calendar.getInstance()
         val cal2 = Calendar.getInstance()
         cal1.time = now
@@ -94,8 +106,6 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
         } else {
             resources.getString(R.string.later)
         }
-
-
     }
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {

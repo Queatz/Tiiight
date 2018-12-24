@@ -163,7 +163,7 @@ class EditReminderFragment : Fragment() {
             items.add(
                 ReminderTimeShortcutItem(
                     R.drawable.ic_schedule_black_24dp,
-                    "In 1 hour",
+                    getString(R.string.reminder_time_in_one_hour),
                     Calendar.getInstance().apply {
                         add(Calendar.HOUR, 1)
                     }.time
@@ -176,11 +176,11 @@ class EditReminderFragment : Fragment() {
                 set(Calendar.SECOND, 0)
                 set(Calendar.MILLISECOND, 0)
             }.time.let {
-                if (Date().before(it)) {
+                if (Calendar.getInstance().apply { add(Calendar.HOUR_OF_DAY, 1) }.time.before(it)) {
                     items.add(
                         ReminderTimeShortcutItem(
                             R.drawable.ic_brightness_3_black_24dp,
-                            "Tonight",
+                            getString(R.string.reminder_time_tonight),
                             it
                         )
                     )
@@ -190,7 +190,7 @@ class EditReminderFragment : Fragment() {
             items.add(
                 ReminderTimeShortcutItem(
                     R.drawable.ic_arrow_forward_black_24dp,
-                    "Tomorrow",
+                    getString(R.string.reminder_time_tomorrow),
                     Calendar.getInstance().apply {
                         add(Calendar.DATE, 1)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -203,7 +203,7 @@ class EditReminderFragment : Fragment() {
             items.add(
                 ReminderTimeShortcutItem(
                     R.drawable.ic_fast_forward_black_24dp,
-                    "In 2 days",
+                    getString(R.string.reminder_time_in_2_days),
                     Calendar.getInstance().apply {
                         add(Calendar.DATE, 2)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -216,7 +216,7 @@ class EditReminderFragment : Fragment() {
             items.add(
                 ReminderTimeShortcutItem(
                     R.drawable.ic_weekend_black_24dp,
-                    "Next weekend",
+                    getString(R.string.reminder_time_next_weekend),
                     Calendar.getInstance().apply {
                         set(Calendar.DAY_OF_WEEK, 7)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -233,7 +233,7 @@ class EditReminderFragment : Fragment() {
             items.add(
                 ReminderTimeShortcutItem(
                     R.drawable.ic_wb_sunny_black_24dp,
-                    "Next Monday",
+                    getString(R.string.reminder_time_next_monday),
                     Calendar.getInstance().apply {
                         set(Calendar.DAY_OF_WEEK, 2)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -253,7 +253,7 @@ class EditReminderFragment : Fragment() {
                     items.add(
                         ReminderTimeShortcutItem(
                             R.drawable.ic_replay_black_24dp,
-                            "Last",
+                            getString(R.string.reminder_time_last),
                             it
                         )
                     )

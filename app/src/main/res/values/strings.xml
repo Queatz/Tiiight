@@ -12,4 +12,12 @@
     <string name="send_feedback">Send feedback</string>
     <string name="archived_notes">Archived notes</string>
     <string name="archive">Archive</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="reminder_time_in_one_hour">In 1 hour</string>
+    <string name="reminder_time_tonight">Tonight</string>
+    <string name="reminder_time_tomorrow">Tomorrow</string>
+    <string name="reminder_time_in_2_days">In 2 days</string>
+    <string name="reminder_time_next_weekend">Next weekend</string>
+    <string name="reminder_time_next_monday">Next Monday</string>
+    <string name="reminder_time_last">Last</string>
 </resources>
