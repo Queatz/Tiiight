@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.queatz.tiiight.R
+import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.ContextManager
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.models.ReminderModel
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private var remindersSubscription: DataSubscription? = null
     private var settingsButton: MenuItem? = null
+    private lateinit var adapter: ReminderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +37,12 @@ class MainActivity : AppCompatActivity() {
         app.on(ContextManager::class).context = this
 
         fab.setOnClickListener { view ->
-            val reminder = ReminderModel("", false, Date())
+            val reminder = ReminderModel("", false, getNextDate())
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
             edit(reminder)
         }
 
-        val adapter = ReminderAdapter({ edit(it) }, resources)
+        adapter = ReminderAdapter({ edit(it) }, resources)
         reminders.adapter = adapter
         reminders.layoutManager = LinearLayoutManager(this)
 
@@ -48,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             reminder.done = true
             reminder.doneDate = Date()
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+            app.on(AlarmManager::class).cancel(reminder)
 
             Snackbar.make(coordinator, "Marked done", Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) {
@@ -69,7 +72,14 @@ class MainActivity : AppCompatActivity() {
             .build()
             .subscribe()
             .on(AndroidScheduler.mainThread())
-            .observer { adapter.items = it }
+            .observer {
+                adapter.items = it
+                reminders.post {
+                    if ((reminders.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() < 2) {
+                        (reminders.layoutManager as LinearLayoutManager).scrollToPosition(0)
+                    }
+                }
+            }
 
         intent?.let { onNewIntent(it) }
     }
@@ -96,6 +106,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun getNextDate() = adapter.items.firstOrNull()?.date?.let { Date(it.time - 1) } ?: Date()
 
     override fun onBackPressed() {
         super.onBackPressed()

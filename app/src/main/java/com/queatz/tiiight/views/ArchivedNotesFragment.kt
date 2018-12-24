@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.queatz.tiiight.R
+import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
@@ -38,12 +39,14 @@ class ArchivedNotesFragment : Fragment() {
         ItemTouchHelper(SwipeOptions(adapter, resources, { reminder ->
             reminder.done = false
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+            app.on(AlarmManager::class).schedule(reminder)
 
             Snackbar.make(activity?.findViewById(R.id.coordinator)!!, "Unarchived", Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) {
                     reminder.done = true
                     reminder.doneDate = Date()
                     app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+                    app.on(AlarmManager::class).cancel(reminder)
                 }
                 .show()
         }, {

@@ -10,6 +10,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.queatz.tiiight.R
+import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.managers.SettingsManager
 import com.queatz.tiiight.models.ReminderModel
@@ -91,8 +92,10 @@ class EditReminderFragment : Fragment() {
 
             val cal = Calendar.getInstance()
             cal.time = it.date
+            cal.set(Calendar.SECOND, 0)
+            cal.set(Calendar.MILLISECOND, 0)
 
-            calendarView.date = it.date.time
+            calendarView.date = cal.time.time
 
             timeView.currentHour = cal.get(Calendar.HOUR_OF_DAY)
             timeView.currentMinute = cal.get(Calendar.MINUTE)
@@ -105,6 +108,7 @@ class EditReminderFragment : Fragment() {
                 it.date = cal.time
                 it.done = false
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
+                app.on(AlarmManager::class).schedule(it)
 
                 calendarViewLayout.visibility = View.GONE
                 timeView.visibility = View.VISIBLE
@@ -122,6 +126,7 @@ class EditReminderFragment : Fragment() {
                 it.date = cal.time
                 it.done = false
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
+                app.on(AlarmManager::class).schedule(it)
                 showTime(it.date)
 
                 if (calendarViewLayout.visible || timeView.visible) {
@@ -149,6 +154,7 @@ class EditReminderFragment : Fragment() {
                 it.date = date
                 it.done = false
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
+                app.on(AlarmManager::class).schedule(it)
                 showTime(it.date)
 
                 if (isQuickEdit) {
@@ -166,6 +172,8 @@ class EditReminderFragment : Fragment() {
                     getString(R.string.reminder_time_in_one_hour),
                     Calendar.getInstance().apply {
                         add(Calendar.HOUR, 1)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
                     }.time
                 )
             )
