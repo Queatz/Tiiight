@@ -15,6 +15,7 @@ import com.queatz.tiiight.on
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.reactive.DataSubscription
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class ArchivedNotesFragment : Fragment() {
     companion object {
@@ -31,7 +32,6 @@ class ArchivedNotesFragment : Fragment() {
 
         val adapter = ReminderAdapter({ edit(it) }, resources)
         adapter.mainActionIconResId = R.drawable.ic_unarchive_black_24dp
-        adapter.pastRemindersSectionHeaderName = R.string.archive
         reminders.adapter = adapter
         reminders.layoutManager = LinearLayoutManager(context)
 
@@ -42,6 +42,7 @@ class ArchivedNotesFragment : Fragment() {
             Snackbar.make(activity?.findViewById(R.id.coordinator)!!, "Unarchived", Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) {
                     reminder.done = true
+                    reminder.doneDate = Date()
                     app.on(DataManager::class).box(ReminderModel::class).put(reminder)
                 }
                 .show()
@@ -55,7 +56,7 @@ class ArchivedNotesFragment : Fragment() {
         remindersSubscription = app.on(DataManager::class).box(ReminderModel::class).query()
             .notEqual(ReminderModel_.text, "")
             .equal(ReminderModel_.done, true)
-            .sort { o1, o2 -> o2.date.compareTo(o1.date) }
+            .sort { o1, o2 -> (o2.doneDate ?: Date(0)).compareTo(o1.doneDate ?: Date(0)) }
             .build()
             .subscribe()
             .on(AndroidScheduler.mainThread())

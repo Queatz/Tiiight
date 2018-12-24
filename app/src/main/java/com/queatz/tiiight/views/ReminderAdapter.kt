@@ -39,8 +39,6 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
 
     var mainActionIconResId: Int = R.drawable.ic_check_black_24dp
 
-    var pastRemindersSectionHeaderName: Int = R.string.today
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_reminder, parent, false)
@@ -67,15 +65,18 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
     private fun showSectionHeader(items: List<ReminderModel>, position: Int): Boolean {
         val previousHeader = if (position > 0) getSectionHeader(items[position - 1]) else null
         val header = getSectionHeader(items[position])
-
         return previousHeader == header
     }
 
     private fun getSectionHeader(reminder: ReminderModel): String {
+        if (reminder.done) {
+            return resources.getString(R.string.archive)
+        }
+
         val now = Date()
 
         if (now.after(reminder.date)) {
-            return resources.getString(pastRemindersSectionHeaderName)
+            return resources.getString(R.string.today)
         }
 
         if (DateUtils.isToday(reminder.date.time)) {

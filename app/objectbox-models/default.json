@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:5513493799099266228",
-      "lastPropertyId": "6:1119310439788978171",
+      "lastPropertyId": "7:2542456685600316806",
       "name": "ReminderModel",
       "properties": [
         {
@@ -31,6 +31,10 @@
         {
           "id": "6:1119310439788978171",
           "name": "date"
+        },
+        {
+          "id": "7:2542456685600316806",
+          "name": "doneDate"
         }
       ],
       "relations": []

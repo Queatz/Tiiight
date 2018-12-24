@@ -1,5 +1,6 @@
 package com.queatz.tiiight.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         ItemTouchHelper(SwipeOptions(adapter, resources, { reminder ->
             reminder.done = true
+            reminder.doneDate = Date()
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
 
             Snackbar.make(coordinator, "Marked done", Snackbar.LENGTH_SHORT)
@@ -68,6 +70,8 @@ class MainActivity : AppCompatActivity() {
             .subscribe()
             .on(AndroidScheduler.mainThread())
             .observer { adapter.items = it }
+
+        intent?.let { onNewIntent(it) }
     }
 
     override fun onResume() {
@@ -78,6 +82,19 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         remindersSubscription?.cancel()
         super.onDestroy()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
+                    val reminder = ReminderModel(it, false, Date())
+                    app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+                    edit(reminder)
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

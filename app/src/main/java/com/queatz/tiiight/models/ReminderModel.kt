@@ -7,5 +7,6 @@ import java.util.*
 data class ReminderModel constructor(
     var text: String = "",
     var done: Boolean = false,
-    var date: Date = Date()
+    var date: Date = Date(),
+    var doneDate: Date? = null
 ) : BaseModel()
