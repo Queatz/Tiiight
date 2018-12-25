@@ -1,0 +1,10 @@
+
+
+# TODO
+
+ [ ] manage / add labels
+ [ ] repeating reminders
+ [ ] time tracking addon / ongoing notification to stop it
+ [ ] change morning and afternoon in settings
+ [ ] bell on / off for reminders
+ [ ] share reminder to... (toolbar of edit screen)

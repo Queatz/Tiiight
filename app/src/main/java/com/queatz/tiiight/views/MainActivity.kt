@@ -37,9 +37,7 @@ class MainActivity : AppCompatActivity() {
         app.on(ContextManager::class).context = this
 
         fab.setOnClickListener { view ->
-            val reminder = ReminderModel("", false, getNextDate())
-            app.on(DataManager::class).box(ReminderModel::class).put(reminder)
-            edit(reminder)
+            newReminder()
         }
 
         adapter = ReminderAdapter({ edit(it) }, resources)
@@ -97,6 +95,9 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         when (intent?.action) {
+            Intent.ACTION_EDIT -> {
+                newReminder()
+            }
             Intent.ACTION_SEND -> {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     val reminder = ReminderModel(it, false, Date())
@@ -106,8 +107,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun getNextDate() = adapter.items.firstOrNull()?.date?.let { Date(it.time - 1) } ?: Date()
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -134,6 +133,19 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun newReminder() {
+        val reminder = ReminderModel("", false, getNextDate())
+        app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+        edit(reminder)
+    }
+
+    private fun getNextDate(): Date {
+        val date = adapter.items.firstOrNull()?.date?.let { Date(it.time - 1) }
+        val now = Date()
+
+        return if (date == null || date.after(now)) now else date
     }
 
     private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {

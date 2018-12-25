@@ -43,7 +43,6 @@ class NotificationManager : PoolMember() {
         val notification = NotificationCompat.Builder(on(AppManager::class).app, on(AppManager::class).app.getString(R.string.tiiight_notifications))
             .setSmallIcon(R.drawable.ic_check_circle_white_24dp)
             .setContentTitle(reminder.text)
-            .setContentText(on(AppManager::class).app.getString(R.string.tap_to_open))
             .setAutoCancel(true)
             .setContentIntent(contentIntent)
             .setDefaults(Notification.DEFAULT_ALL)

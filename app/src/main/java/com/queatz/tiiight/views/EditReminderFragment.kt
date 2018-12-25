@@ -178,21 +178,36 @@ class EditReminderFragment : Fragment() {
                 )
             )
 
-            Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 19)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }.time.let {
-                if (Calendar.getInstance().apply { add(Calendar.HOUR_OF_DAY, 1) }.time.before(it)) {
-                    items.add(
-                        ReminderTimeShortcutItem(
-                            R.drawable.ic_brightness_3_black_24dp,
-                            getString(R.string.reminder_time_tonight),
-                            it
+            if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) >= 5) {
+                Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, 19)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }.time.let {
+                    if (Calendar.getInstance().apply { add(Calendar.HOUR_OF_DAY, 1) }.time.before(it)) {
+                        items.add(
+                            ReminderTimeShortcutItem(
+                                R.drawable.ic_brightness_3_black_24dp,
+                                getString(R.string.reminder_time_tonight),
+                                it
+                            )
                         )
-                    )
+                    }
                 }
+            } else {
+                items.add(
+                    ReminderTimeShortcutItem(
+                        R.drawable.ic_wb_sunny_black_24dp,
+                        getString(R.string.reminder_time_in_the_morning),
+                        Calendar.getInstance().apply {
+                            set(Calendar.HOUR_OF_DAY, 5)
+                            set(Calendar.MINUTE, 0)
+                            set(Calendar.SECOND, 0)
+                            set(Calendar.MILLISECOND, 0)
+                        }.time
+                    )
+                )
             }
 
             items.add(
@@ -240,7 +255,7 @@ class EditReminderFragment : Fragment() {
             )
             items.add(
                 ReminderTimeShortcutItem(
-                    R.drawable.ic_wb_sunny_black_24dp,
+                    R.drawable.ic_looks_black_24dp,
                     getString(R.string.reminder_time_next_monday),
                     Calendar.getInstance().apply {
                         set(Calendar.DAY_OF_WEEK, 2)
