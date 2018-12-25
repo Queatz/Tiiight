@@ -1,5 +1,6 @@
 package com.queatz.tiiight.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class EditReminderFragment : Fragment() {
+class EditReminderFragment : Fragment(), ShareableFragment {
 
     private val dateFormat = SimpleDateFormat("EE, MMM dd, yyyy h:mma", Locale.US)
 
@@ -40,9 +41,10 @@ class EditReminderFragment : Fragment() {
     }
 
     private var isQuickEdit: Boolean = false
+    private var reminder: ReminderModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
-        inflater.inflate(R.layout.activity_edit_reminder, container, false)!!
+        inflater.inflate(com.queatz.tiiight.R.layout.activity_edit_reminder, container, false)!!
 
     override fun onResume() {
         super.onResume()
@@ -86,8 +88,17 @@ class EditReminderFragment : Fragment() {
         reminderTimeShortcuts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
+    override fun onShare() {
+        reminder?.apply {
+            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, text)
+            startActivity(Intent.createChooser(sharingIntent, resources.getString(R.string.share_to)))
+        }
+    }
+
     private fun setReminderId(id: Long) {
-        val reminder = app.on(DataManager::class).box(ReminderModel::class).get(id)
+        reminder = app.on(DataManager::class).box(ReminderModel::class).get(id)
         reminder?.let {
 
             val cal = Calendar.getInstance()
@@ -156,10 +167,7 @@ class EditReminderFragment : Fragment() {
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
                 app.on(AlarmManager::class).schedule(it)
                 showTime(it.date)
-
-                if (isQuickEdit) {
-                    view?.post { activity?.onBackPressed() }
-                }
+                view?.post { activity?.onBackPressed() }
             }
 
             reminderTimeShortcuts.adapter = adapter
@@ -168,8 +176,8 @@ class EditReminderFragment : Fragment() {
 
             items.add(
                 ReminderTimeShortcutItem(
-                    R.drawable.ic_schedule_black_24dp,
-                    getString(R.string.reminder_time_in_one_hour),
+                    com.queatz.tiiight.R.drawable.ic_schedule_black_24dp,
+                    getString(com.queatz.tiiight.R.string.reminder_time_in_one_hour),
                     Calendar.getInstance().apply {
                         add(Calendar.HOUR, 1)
                         set(Calendar.SECOND, 0)
@@ -188,8 +196,8 @@ class EditReminderFragment : Fragment() {
                     if (Calendar.getInstance().apply { add(Calendar.HOUR_OF_DAY, 1) }.time.before(it)) {
                         items.add(
                             ReminderTimeShortcutItem(
-                                R.drawable.ic_brightness_3_black_24dp,
-                                getString(R.string.reminder_time_tonight),
+                                com.queatz.tiiight.R.drawable.ic_brightness_3_black_24dp,
+                                getString(com.queatz.tiiight.R.string.reminder_time_tonight),
                                 it
                             )
                         )
@@ -198,8 +206,8 @@ class EditReminderFragment : Fragment() {
             } else {
                 items.add(
                     ReminderTimeShortcutItem(
-                        R.drawable.ic_wb_sunny_black_24dp,
-                        getString(R.string.reminder_time_in_the_morning),
+                        com.queatz.tiiight.R.drawable.ic_wb_sunny_black_24dp,
+                        getString(com.queatz.tiiight.R.string.reminder_time_in_the_morning),
                         Calendar.getInstance().apply {
                             set(Calendar.HOUR_OF_DAY, 5)
                             set(Calendar.MINUTE, 0)
@@ -212,8 +220,8 @@ class EditReminderFragment : Fragment() {
 
             items.add(
                 ReminderTimeShortcutItem(
-                    R.drawable.ic_arrow_forward_black_24dp,
-                    getString(R.string.reminder_time_tomorrow),
+                    com.queatz.tiiight.R.drawable.ic_arrow_forward_black_24dp,
+                    getString(com.queatz.tiiight.R.string.reminder_time_tomorrow),
                     Calendar.getInstance().apply {
                         add(Calendar.DATE, 1)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -225,8 +233,8 @@ class EditReminderFragment : Fragment() {
             )
             items.add(
                 ReminderTimeShortcutItem(
-                    R.drawable.ic_fast_forward_black_24dp,
-                    getString(R.string.reminder_time_in_2_days),
+                    com.queatz.tiiight.R.drawable.ic_fast_forward_black_24dp,
+                    getString(com.queatz.tiiight.R.string.reminder_time_in_2_days),
                     Calendar.getInstance().apply {
                         add(Calendar.DATE, 2)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -238,8 +246,8 @@ class EditReminderFragment : Fragment() {
             )
             items.add(
                 ReminderTimeShortcutItem(
-                    R.drawable.ic_weekend_black_24dp,
-                    getString(R.string.reminder_time_next_weekend),
+                    com.queatz.tiiight.R.drawable.ic_weekend_black_24dp,
+                    getString(com.queatz.tiiight.R.string.reminder_time_next_weekend),
                     Calendar.getInstance().apply {
                         set(Calendar.DAY_OF_WEEK, 7)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -255,8 +263,8 @@ class EditReminderFragment : Fragment() {
             )
             items.add(
                 ReminderTimeShortcutItem(
-                    R.drawable.ic_looks_black_24dp,
-                    getString(R.string.reminder_time_next_monday),
+                    com.queatz.tiiight.R.drawable.ic_looks_black_24dp,
+                    getString(com.queatz.tiiight.R.string.reminder_time_next_monday),
                     Calendar.getInstance().apply {
                         set(Calendar.DAY_OF_WEEK, 2)
                         set(Calendar.HOUR_OF_DAY, 5)
@@ -275,8 +283,8 @@ class EditReminderFragment : Fragment() {
                 if (Date().before(it)) {
                     items.add(
                         ReminderTimeShortcutItem(
-                            R.drawable.ic_replay_black_24dp,
-                            getString(R.string.reminder_time_last),
+                            com.queatz.tiiight.R.drawable.ic_replay_black_24dp,
+                            getString(com.queatz.tiiight.R.string.reminder_time_last),
                             it
                         )
                     )

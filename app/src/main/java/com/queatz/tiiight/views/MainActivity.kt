@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     private var remindersSubscription: DataSubscription? = null
     private var settingsButton: MenuItem? = null
+    private var shareButton: MenuItem? = null
     private lateinit var adapter: ReminderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             app.on(DataManager::class).box(ReminderModel::class).put(reminder)
             app.on(AlarmManager::class).cancel(reminder)
 
-            Snackbar.make(coordinator, "Marked done", Snackbar.LENGTH_SHORT)
+            Snackbar.make(coordinator, getString(R.string.marked_done), Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) {
                     reminder.done = false
                     app.on(DataManager::class).box(ReminderModel::class).put(reminder)
@@ -116,7 +117,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         settingsButton = menu.findItem(R.id.action_settings)
+        shareButton = menu.findItem(R.id.action_share)
         settingsButton?.isVisible = supportFragmentManager.backStackEntryCount <= 0
+        shareButton?.isVisible = (getTopFragment() is ShareableFragment)
 
         return true
     }
@@ -129,6 +132,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_settings -> {
                 showFragment(SettingsFragment.create(), getString(R.string.action_settings))
+                true
+            }
+            R.id.action_share -> {
+                (getTopFragment() as ShareableFragment).onShare()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -167,7 +174,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.apply {
             title = if (hasBackStack) {
-                supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name ?: getString(R.string.app_name)
+                getTopBackStackEntry()?.name ?: getString(R.string.app_name)
             } else {
                 getString(R.string.app_name)
             }
@@ -179,6 +186,13 @@ class MainActivity : AppCompatActivity() {
 
         if (hasBackStack) fab.hide() else fab.show()
     }
+
+    private fun getTopBackStackEntry() = if (supportFragmentManager.backStackEntryCount > 0) supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1) else null
+    private fun getTopFragment() = supportFragmentManager.fragments.lastOrNull()
+}
+
+interface ShareableFragment {
+    fun onShare()
 }
 
 val app = 0

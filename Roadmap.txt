@@ -2,9 +2,9 @@
 
 # TODO
 
- [ ] manage / add labels
- [ ] repeating reminders
- [ ] time tracking addon / ongoing notification to stop it
- [ ] change morning and afternoon in settings
- [ ] bell on / off for reminders
- [ ] share reminder to... (toolbar of edit screen)
+ [ ] P1 time tracking addon / ongoing notification to stop it
+ [ ] P2 change morning and afternoon in settings
+ [ ] P2 share reminder to... (toolbar of edit screen)
+ [ ] P2 manage / add labels (show in front of
+ [ ] P3 repeating reminders
+ [ ] P4 bell on / off for reminders

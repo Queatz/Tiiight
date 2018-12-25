@@ -24,4 +24,6 @@
     <string name="tap_to_open">Tap to open</string>
     <string name="add_reminder">Add reminder</string>
     <string name="reminder_time_in_the_morning">In the morning</string>
+    <string name="marked_done">Marked done</string>
+    <string name="share_to">Share to</string>
 </resources>
