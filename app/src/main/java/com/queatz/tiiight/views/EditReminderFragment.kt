@@ -201,6 +201,20 @@ class EditReminderFragment : Fragment(), ShareableFragment {
                                 it
                             )
                         )
+                    } else {
+                        items.add(
+                            ReminderTimeShortcutItem(
+                                com.queatz.tiiight.R.drawable.ic_wb_sunny_black_24dp,
+                                getString(com.queatz.tiiight.R.string.reminder_time_in_the_morning),
+                                Calendar.getInstance().apply {
+                                    add(Calendar.DATE, 1)
+                                    set(Calendar.HOUR_OF_DAY, 5)
+                                    set(Calendar.MINUTE, 0)
+                                    set(Calendar.SECOND, 0)
+                                    set(Calendar.MILLISECOND, 0)
+                                }.time
+                            )
+                        )
                     }
                 }
             } else {
