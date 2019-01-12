@@ -101,10 +101,13 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
         cal2.time = reminder.date
         val isSameWeek = cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR) && cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
 
-        return if (isSameWeek) {
-            resources.getString(R.string.this_week)
-        } else {
-            resources.getString(R.string.later)
+        cal1.add(Calendar.WEEK_OF_YEAR, 1)
+        val isNextWeek = cal1.get(Calendar.WEEK_OF_YEAR) == cal2.get(Calendar.WEEK_OF_YEAR) && cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+
+        return when {
+            isSameWeek -> resources.getString(R.string.this_week)
+            isNextWeek -> resources.getString(R.string.next_week)
+            else -> resources.getString(R.string.later)
         }
     }
 

@@ -167,7 +167,10 @@ class EditReminderFragment : Fragment(), ShareableFragment {
                 app.on(DataManager::class).box(ReminderModel::class).put(it)
                 app.on(AlarmManager::class).schedule(it)
                 showTime(it.date)
-                view?.post { activity?.onBackPressed() }
+
+                if (it.text.isNotBlank()) {
+                    view?.post { activity?.onBackPressed() }
+                }
             }
 
             reminderTimeShortcuts.adapter = adapter
@@ -247,19 +250,6 @@ class EditReminderFragment : Fragment(), ShareableFragment {
             )
             items.add(
                 ReminderTimeShortcutItem(
-                    com.queatz.tiiight.R.drawable.ic_fast_forward_black_24dp,
-                    getString(com.queatz.tiiight.R.string.reminder_time_in_2_days),
-                    Calendar.getInstance().apply {
-                        add(Calendar.DATE, 2)
-                        set(Calendar.HOUR_OF_DAY, 5)
-                        set(Calendar.MINUTE, 0)
-                        set(Calendar.SECOND, 0)
-                        set(Calendar.MILLISECOND, 0)
-                    }.time
-                )
-            )
-            items.add(
-                ReminderTimeShortcutItem(
                     com.queatz.tiiight.R.drawable.ic_weekend_black_24dp,
                     getString(com.queatz.tiiight.R.string.reminder_time_next_weekend),
                     Calendar.getInstance().apply {
@@ -289,6 +279,19 @@ class EditReminderFragment : Fragment(), ShareableFragment {
                         if (Date().after(time)) {
                             add(Calendar.WEEK_OF_YEAR, 1)
                         }
+                    }.time
+                )
+            )
+            items.add(
+                ReminderTimeShortcutItem(
+                    com.queatz.tiiight.R.drawable.ic_fast_forward_black_24dp,
+                    getString(com.queatz.tiiight.R.string.reminder_time_in_2_days),
+                    Calendar.getInstance().apply {
+                        add(Calendar.DATE, 2)
+                        set(Calendar.HOUR_OF_DAY, 5)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
                     }.time
                 )
             )

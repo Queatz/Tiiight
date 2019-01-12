@@ -2,26 +2,31 @@
 
 # TODO
 
- [ ] -- "Next week" bucket
- [ ] -- Scroll bar on lists
+ [ ] P1 Time tracking addon / ongoing notification to stop it
 
- [ ] P1 time tracking addon / ongoing notification to stop it
- [ ] P2 manage / add labels (show in front of)
  [ ] P2 Sticky service to ensure alarms are set
  [ ] P2 Only schedule alarms that are 1 week out, not further
- [ ] P2 change morning and afternoon in settings
+ [ ] P2 Change morning and afternoon in settings
  [ ] P2 Auto filters based on most common words
- [ ] P3 Show pink left border for today items
+ [ ] P2 Auto-suggested to add labels to front of reminder based on most common words
+    [ ] Another ObjectBox table for word scoring
+
+ [ ] P3 Show pink left border for today items (setting)
  [ ] P3 repeating reminders
  [ ] P3 Slide action settings = edit, archive, share
+ [ ] P3 Null state for no reminders "No reminders" gray text
+
  [ ] P4 bell on / off for reminders
  [ ] P4 Search all
- [ ] P4 Reminder saved | edit (if it has been edited)
- [ ] P7 Sync to Google Account (ObjectBox Sync)
+ [ ] P4 Reminder saved | edit snackbar (if it has been edited)
 
- [X] P2 share reminder to... (toolbar of edit screen)
- [X] P3 In The Morning should show up after Tonight disappears (6pm)
+# TODO Web
+
+ [ ] P5 Sync to Google Account (ObjectBox Sync)
+    [ ] V1: Add ONLY + View ONLY
+    [ ]
 
 # MKTG
 
  [ ] Video + 6 SSs
+ [ ] Web splash page tiiight.com
