@@ -2,7 +2,18 @@
 
 # TODO
 
+
+ [ ] Ordering
+ [ ] NO AUTOSCROLL
+ [ ] Stats: stats, num delays, num done, avg time
+ [ ] grid layout for time selector
+ [ ] show exact time on time selector shortcuts
+ [ ] select multiple -> move / done
+
+# TODO
+
  [ ] P1 Time tracking addon / ongoing notification to stop it
+ [ ] P1 Most recently updated at top, not due date
 
  [ ] P2 Sticky service to ensure alarms are set
  [ ] P2 Only schedule alarms that are 1 week out, not further
