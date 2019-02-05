@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.DataManager
@@ -85,7 +85,7 @@ class EditReminderFragment : Fragment(), ShareableFragment {
             }
         }
 
-        reminderTimeShortcuts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        reminderTimeShortcuts.layoutManager = GridLayoutManager(context, 3)
     }
 
     override fun onShare() {

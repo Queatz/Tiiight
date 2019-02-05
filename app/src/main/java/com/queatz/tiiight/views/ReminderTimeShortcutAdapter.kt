@@ -9,11 +9,14 @@ import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import com.queatz.tiiight.R
 import kotlinx.android.synthetic.main.item_reminder_time_shortcut.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 
 
 class ReminderTimeShortcutAdapter(private val onDate: (Date) -> Unit) : RecyclerView.Adapter<ReminderTimeShortcutAdapter.ViewHolder>() {
+
+    private val dateFormat = SimpleDateFormat("EE, MMM dd, h:mma", Locale.US)
 
     var items = mutableListOf<ReminderTimeShortcutItem>()
         set(value) {
@@ -43,10 +46,12 @@ class ReminderTimeShortcutAdapter(private val onDate: (Date) -> Unit) : Recycler
 
         holder.button.text = item.text
         holder.button.setOnClickListener { onDate.invoke(item.date) }
+        holder.actualTime.text = dateFormat.format(item.date)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val button = itemView.button!!
+        val actualTime = itemView.actualTime!!
     }
 }
 

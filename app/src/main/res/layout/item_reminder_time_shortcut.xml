@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:paddingTop="@dimen/pad"
-             android:paddingBottom="@dimen/pad">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingTop="@dimen/pad"
+              android:paddingBottom="@dimen/pad"
+              android:orientation="vertical">
 
     <Button style="@android:style/Widget.Material.Button.Borderless.Colored"
-            android:id="@+id/button"
-            android:background="?selectableItemBackgroundBorderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/pad"
-            android:drawableTop="@drawable/ic_schedule_black_24dp"
-            android:drawableTint="@color/textHeader"
-            android:drawablePadding="@dimen/pad"
-            android:text="@string/custom"/>
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="@dimen/pad"
+        android:background="?selectableItemBackgroundBorderless"
+        android:drawableTop="@drawable/ic_schedule_black_24dp"
+        android:drawableTint="@color/textHeader"
+        android:drawablePadding="@dimen/pad"
+        android:text="@string/custom"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/actualTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textHeaderLight"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="@dimen/textSizeTiny"
+        tools:text="5:00PM Tuesday"/>
+
+</LinearLayout>

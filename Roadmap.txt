@@ -1,29 +1,26 @@
 
 
-# TODO
+# NEXT
 
 
- [ ] Ordering
- [ ] NO AUTOSCROLL
- [ ] Stats: stats, num delays, num done, avg time
- [ ] grid layout for time selector
- [ ] show exact time on time selector shortcuts
- [ ] select multiple -> move / done
 
 # TODO
 
- [ ] P1 Time tracking addon / ongoing notification to stop it
  [ ] P1 Most recently updated at top, not due date
 
+ [ ] P1 Time tracking addon / ongoing notification to stop it
+
  [ ] P2 Sticky service to ensure alarms are set
- [ ] P2 Only schedule alarms that are 1 week out, not further
+ [x] P2 Only schedule alarms that are 1 week out, not further
  [ ] P2 Change morning and afternoon in settings
  [ ] P2 Auto filters based on most common words
  [ ] P2 Auto-suggested to add labels to front of reminder based on most common words
     [ ] Another ObjectBox table for word scoring
 
+ [ ] P3 Select multiple -> move / done
+ [ ] P3 Stats: stats, num delays, num done, avg time
  [ ] P3 Show pink left border for today items (setting)
- [ ] P3 repeating reminders
+ [ ] P3 Repeating reminders
  [ ] P3 Slide action settings = edit, archive, share
  [ ] P3 Null state for no reminders "No reminders" gray text
 

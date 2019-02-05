@@ -71,14 +71,7 @@ class MainActivity : AppCompatActivity() {
             .build()
             .subscribe()
             .on(AndroidScheduler.mainThread())
-            .observer {
-                reminders.post {
-                    if ((reminders.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0) {
-                        (reminders.layoutManager as LinearLayoutManager).scrollToPosition(0)
-                    }
-                }
-                adapter.items = it
-            }
+            .observer { adapter.items = it }
 
         intent?.let { onNewIntent(it) }
     }
