@@ -1,17 +1,18 @@
 package com.queatz.tiiight.managers
 
-import com.queatz.tiiight.PoolMember
+import com.queatz.on.On
+import com.queatz.on.OnLifecycle
 import com.queatz.tiiight.models.BaseModel
 import com.queatz.tiiight.models.MyObjectBox
 import io.objectbox.BoxStore
 import kotlin.reflect.KClass
 
-class DataManager : PoolMember() {
+class DataManager constructor(private val on: On) : OnLifecycle {
 
     private lateinit var database: BoxStore
 
-    override fun onPoolInit() {
-        database = MyObjectBox.builder().androidContext(on(ContextManager::class).context).build()
+    override fun on() {
+        database = MyObjectBox.builder().androidContext(on<ContextManager>().context).build()
     }
 
     fun <T : BaseModel> box(clazz: KClass<T>) = database.boxFor(clazz.java)

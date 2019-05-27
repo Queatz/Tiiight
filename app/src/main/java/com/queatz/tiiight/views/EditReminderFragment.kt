@@ -12,13 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.queatz.tiiight.App.Companion.app
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.managers.FilterManager
 import com.queatz.tiiight.managers.SettingsManager
 import com.queatz.tiiight.models.ReminderModel
-import com.queatz.tiiight.on
 import com.queatz.tiiight.showKeyboard
 import com.queatz.tiiight.visible
 import kotlinx.android.synthetic.main.activity_edit_reminder.*
@@ -100,7 +100,7 @@ class EditReminderFragment : Fragment(), ShareableFragment {
         filters.adapter = filterAdapter
         filters.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
-        filterAdapter.items = app.on(FilterManager::class).getTopFilters().toMutableList()
+        filterAdapter.items = app<FilterManager>().getTopFilters().toMutableList()
     }
 
     override fun onShare() {
@@ -113,7 +113,7 @@ class EditReminderFragment : Fragment(), ShareableFragment {
     }
 
     private fun setReminderId(id: Long) {
-        reminder = app.on(DataManager::class).box(ReminderModel::class).get(id)
+        reminder = app<DataManager>().box(ReminderModel::class).get(id)
         reminder?.let {
 
             val cal = Calendar.getInstance()
@@ -133,8 +133,8 @@ class EditReminderFragment : Fragment(), ShareableFragment {
 
                 it.date = cal.time
                 it.done = false
-                app.on(DataManager::class).box(ReminderModel::class).put(it)
-                app.on(AlarmManager::class).schedule(it)
+                app<DataManager>().box(ReminderModel::class).put(it)
+                app<AlarmManager>().schedule(it)
 
                 calendarViewLayout.visibility = View.GONE
                 timeView.visibility = View.VISIBLE
@@ -151,8 +151,8 @@ class EditReminderFragment : Fragment(), ShareableFragment {
 
                 it.date = cal.time
                 it.done = false
-                app.on(DataManager::class).box(ReminderModel::class).put(it)
-                app.on(AlarmManager::class).schedule(it)
+                app<DataManager>().box(ReminderModel::class).put(it)
+                app<AlarmManager>().schedule(it)
                 showTime(it.date)
 
                 if (calendarViewLayout.visible || timeView.visible) {
@@ -172,15 +172,15 @@ class EditReminderFragment : Fragment(), ShareableFragment {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     it.text = s.toString()
-                    app.on(DataManager::class).box(ReminderModel::class).put(it)
+                    app<DataManager>().box(ReminderModel::class).put(it)
                 }
             })
 
             val adapter = ReminderTimeShortcutAdapter { date ->
                 it.date = date
                 it.done = false
-                app.on(DataManager::class).box(ReminderModel::class).put(it)
-                app.on(AlarmManager::class).schedule(it)
+                app<DataManager>().box(ReminderModel::class).put(it)
+                app<AlarmManager>().schedule(it)
                 showTime(it.date)
 
                 if (it.text.isNotBlank()) {
@@ -324,7 +324,7 @@ class EditReminderFragment : Fragment(), ShareableFragment {
                 )
             )
 
-            app.on(SettingsManager::class).settings.lastDate.let {
+            app<SettingsManager>().settings.lastDate.let {
                 if (Date().before(it)) {
                     items.add(
                         ReminderTimeShortcutItem(
@@ -352,9 +352,9 @@ class EditReminderFragment : Fragment(), ShareableFragment {
     }
 
     private fun saveLastDate(date: Date) {
-        app.on(SettingsManager::class).settings.apply {
+        app<SettingsManager>().settings.apply {
             lastDate = date
-            app.on(SettingsManager::class).settings = this
+            app<SettingsManager>().settings = this
         }
     }
 

@@ -1,12 +1,12 @@
 package com.queatz.tiiight.managers
 
-import com.queatz.tiiight.PoolMember
+import com.queatz.on.On
 import com.queatz.tiiight.models.SettingsModel
 
-class SettingsManager : PoolMember() {
+class SettingsManager constructor(private val on: On) {
     var settings: SettingsModel
-        get() = on(DataManager::class).box(SettingsModel::class).all.firstOrNull() ?: SettingsModel()
+        get() = on<DataManager>().box(SettingsModel::class).all.firstOrNull() ?: SettingsModel()
         set(value) {
-            on(DataManager::class).box(SettingsModel::class).put(value)
+            on<DataManager>().box(SettingsModel::class).put(value)
         }
 }

@@ -5,18 +5,19 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.queatz.on.On
+import com.queatz.on.OnLifecycle
 import com.queatz.tiiight.AlarmReceiver
-import com.queatz.tiiight.PoolMember
 import com.queatz.tiiight.models.ReminderModel
 import java.util.*
 
 
-class AlarmManager : PoolMember() {
+class AlarmManager constructor(private val on: On) : OnLifecycle {
 
     private lateinit var alarm: AlarmManager
 
-    override fun onPoolInit() {
-        alarm = on(AppManager::class).app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    override fun on() {
+        alarm = on<AppManager>().app.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
     fun schedule(reminder: ReminderModel) {
@@ -26,13 +27,13 @@ class AlarmManager : PoolMember() {
             alarm.setExact(
                 AlarmManager.RTC_WAKEUP,
                 reminder.date.time,
-                reminder.toPendingIntent(on(AppManager::class).app)
+                reminder.toPendingIntent(on<AppManager>().app)
             )
         }
     }
 
     fun cancel(reminder: ReminderModel) {
-        alarm.cancel(reminder.toPendingIntent(on(AppManager::class).app))
+        alarm.cancel(reminder.toPendingIntent(on<AppManager>().app))
     }
 }
 

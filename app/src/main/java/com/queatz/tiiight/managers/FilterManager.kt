@@ -1,16 +1,14 @@
 package com.queatz.tiiight.managers
 
-import com.queatz.tiiight.PoolMember
+import com.queatz.on.On
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
-import com.queatz.tiiight.on
 import com.queatz.tiiight.views.FilterCount
-import com.queatz.tiiight.views.app
 
-class FilterManager : PoolMember() {
+class FilterManager constructor(private val on: On) {
     fun getTopFilters(currentFilter: String? = null): List<String> {
         return getTopFilters(
-            app.on(DataManager::class).box(ReminderModel::class).query()
+            on<DataManager>().box(ReminderModel::class).query()
                 .notEqual(ReminderModel_.text, "")
                 .equal(ReminderModel_.done, false)
                 .also {

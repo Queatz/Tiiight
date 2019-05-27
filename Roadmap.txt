@@ -11,13 +11,13 @@
 
  [ ] Progress tracking
  [ ] Status
+   [ ] Not Started / Started / Paused / Stopped / Done
  [ ] Notes
- [ ] Ingredients of initiative
- [ ] Initiatives / High level goals
- [ ] Group / Categorization / Labels + About (alternate: Epic)
+ [ ] Ingredients of initiative (checklist-ish)
+ [?] Initiatives / High level goals
+ [?] Group / Categorization / Labels + About (alternate: Epic)
  [ ] Expiration
  [ ] Measure inititives by X
- [ ] Start / stop / pause
 
  [ ] Info card
     [ ] Created date

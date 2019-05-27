@@ -1,8 +1,8 @@
 package com.queatz.tiiight.managers
 
 import android.app.Application
-import com.queatz.tiiight.PoolMember
+import com.queatz.on.On
 
-class AppManager : PoolMember() {
+class AppManager constructor(private val on: On) {
     lateinit var app: Application
 }

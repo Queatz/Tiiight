@@ -7,12 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.queatz.tiiight.App.Companion.app
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
-import com.queatz.tiiight.on
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.reactive.DataSubscription
 import kotlinx.android.synthetic.main.content_main.*
@@ -38,22 +38,22 @@ class ArchivedNotesFragment : Fragment() {
 
         ItemTouchHelper(SwipeOptions(adapter, resources, { reminder ->
             reminder.done = false
-            app.on(DataManager::class).box(ReminderModel::class).put(reminder)
-            app.on(AlarmManager::class).schedule(reminder)
+            app<DataManager>().box(ReminderModel::class).put(reminder)
+            app<AlarmManager>().schedule(reminder)
 
-            Snackbar.make(activity?.findViewById(R.id.coordinator)!!, "Unarchived", Snackbar.LENGTH_SHORT)
+            Snackbar.make(activity?.findViewById(R.id.coordinator)!!, getString(R.string.unarchived), Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) {
                     reminder.done = true
                     reminder.doneDate = Date()
-                    app.on(DataManager::class).box(ReminderModel::class).put(reminder)
-                    app.on(AlarmManager::class).cancel(reminder)
+                    app<DataManager>().box(ReminderModel::class).put(reminder)
+                    app<AlarmManager>().cancel(reminder)
                 }
                 .show()
         }, {
             edit(it, true)
         })).attachToRecyclerView(reminders)
 
-        remindersSubscription = app.on(DataManager::class).box(ReminderModel::class).query()
+        remindersSubscription = app<DataManager>().box(ReminderModel::class).query()
             .notEqual(ReminderModel_.text, "")
             .equal(ReminderModel_.done, true)
             .sort { o1, o2 -> (o2.doneDate ?: Date(0)).compareTo(o1.doneDate ?: Date(0)) }

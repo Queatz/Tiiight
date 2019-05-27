@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.queatz.tiiight.App.Companion.app
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.ContextManager
@@ -17,7 +18,6 @@ import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.managers.FilterManager
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
-import com.queatz.tiiight.on
 import io.objectbox.android.AndroidScheduler
 import io.objectbox.reactive.DataSubscription
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        app.on(ContextManager::class).context = this
+        app<ContextManager>().context = this
 
         fab.setOnClickListener { view ->
             newReminder()
@@ -57,13 +57,13 @@ class MainActivity : AppCompatActivity() {
         ItemTouchHelper(SwipeOptions(adapter, resources, { reminder ->
             reminder.done = true
             reminder.doneDate = Date()
-            app.on(DataManager::class).box(ReminderModel::class).put(reminder)
-            app.on(AlarmManager::class).cancel(reminder)
+            app<DataManager>().box(ReminderModel::class).put(reminder)
+            app<AlarmManager>().cancel(reminder)
 
             Snackbar.make(coordinator, getString(R.string.marked_done), Snackbar.LENGTH_SHORT)
                 .setAction(R.string.undo) {
                     reminder.done = false
-                    app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+                    app<DataManager>().box(ReminderModel::class).put(reminder)
                 }
                 .show()
         }, {
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     private fun subscribe() {
         remindersSubscription?.cancel()
 
-        remindersSubscription = app.on(DataManager::class).box(ReminderModel::class).query()
+        remindersSubscription = app<DataManager>().box(ReminderModel::class).query()
             .notEqual(ReminderModel_.text, "")
             .equal(ReminderModel_.done, false)
             .also {
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             .on(AndroidScheduler.mainThread())
             .observer {
                 adapter.items = it
-                app.on(FilterManager::class).getTopFilters(it).let {
+                app<FilterManager>().getTopFilters(it).let {
                     val filters = it.toMutableList()
                     if (filters.isEmpty() && currentFilter.isNotBlank()) {
                         filters.add(currentFilter)
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
             Intent.ACTION_SEND -> {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     val reminder = ReminderModel(it, false, Date())
-                    app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+                    app<DataManager>().box(ReminderModel::class).put(reminder)
                     edit(reminder)
                 }
             }
@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun newReminder() {
         val reminder = ReminderModel("", false, Date())
-        app.on(DataManager::class).box(ReminderModel::class).put(reminder)
+        app<DataManager>().box(ReminderModel::class).put(reminder)
         edit(reminder)
     }
 
@@ -217,7 +217,5 @@ class MainActivity : AppCompatActivity() {
 interface ShareableFragment {
     fun onShare()
 }
-
-val app = 0
 
 data class FilterCount(val name: String, val count: Int)
