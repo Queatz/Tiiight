@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.DataManager
+import com.queatz.tiiight.managers.FilterManager
 import com.queatz.tiiight.managers.SettingsManager
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.on
@@ -26,6 +29,7 @@ import java.util.*
 class EditReminderFragment : Fragment(), ShareableFragment {
 
     private val dateFormat = SimpleDateFormat("EE, MMM dd, yyyy h:mma", Locale.US)
+    private lateinit var filterAdapter: FilterAdapter
 
     companion object {
         private const val REMINDER_ID = "reminder"
@@ -86,13 +90,24 @@ class EditReminderFragment : Fragment(), ShareableFragment {
         }
 
         reminderTimeShortcuts.layoutManager = GridLayoutManager(context, 3)
+
+
+        filterAdapter = FilterAdapter {
+            reminderText.setText(it + " " + reminderText.text)
+            reminderText.setSelection(it.length + 1)
+        }
+
+        filters.adapter = filterAdapter
+        filters.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
+        filterAdapter.items = app.on(FilterManager::class).getTopFilters().toMutableList()
     }
 
     override fun onShare() {
         reminder?.apply {
-            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "text/plain"
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, text)
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, text)
             startActivity(Intent.createChooser(sharingIntent, resources.getString(R.string.share_to)))
         }
     }

@@ -7,8 +7,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/activity_main"
-        tools:context=".views.MainActivity"
-        android:id="@+id/content">
+        tools:context=".views.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reminders"
@@ -33,7 +32,7 @@
             android:background="@color/white"
             tools:listitem="@layout/item_filter"
             tools:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="none"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,5 +44,15 @@
             app:layout_constraintEnd_toEndOf="@+id/reminders"
             app:srcCompat="@drawable/ic_add_black_24dp"
             android:tint="@color/white" />
+
+    <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="@dimen/elevationHigh"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

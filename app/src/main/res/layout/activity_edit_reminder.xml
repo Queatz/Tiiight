@@ -29,12 +29,27 @@
                 android:elevation="@dimen/elevation"/>
 
         <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/filters"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                app:layout_constraintTop_toBottomOf="@+id/reminderText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:listitem="@layout/item_filter"
+                tools:orientation="horizontal"
+                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:scrollbars="none"/>
+
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/reminderTimeShortcuts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/reminderText"
+                app:layout_constraintTop_toBottomOf="@+id/filters"
                 app:layout_constraintBottom_toTopOf="@+id/setTimeButton"
                 app:layout_constraintStart_toStartOf="parent"
+                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:itemCount="1"
                 tools:listitem="@layout/item_reminder_time_shortcut"
                 android:overScrollMode="ifContentScrolls" />
 

@@ -25,12 +25,7 @@
     [ ] Number of edits
     [ ] Etc.
 
-
-# NEXT
-
- [ ] P0 Auto-suggested to add labels to front of reminder based on most common words
-    [ ] Another ObjectBox table for word scoring
- [X] P2 Auto filters based on most common words
+# TODO NEXT
 
  [ ] P4 Search all
  [ ] P4 Reminder saved | edit snackbar (if it has been edited)

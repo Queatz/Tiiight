@@ -14,6 +14,7 @@ import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
 import com.queatz.tiiight.managers.ContextManager
 import com.queatz.tiiight.managers.DataManager
+import com.queatz.tiiight.managers.FilterManager
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
 import com.queatz.tiiight.on
@@ -91,31 +92,15 @@ class MainActivity : AppCompatActivity() {
             .on(AndroidScheduler.mainThread())
             .observer {
                 adapter.items = it
-                setupFilters(it)
+                app.on(FilterManager::class).getTopFilters(it).let {
+                    val filters = it.toMutableList()
+                    if (filters.isEmpty() && currentFilter.isNotBlank()) {
+                        filters.add(currentFilter)
+                    }
+
+                    filterAdapter.items = filters
+                }
             }
-    }
-
-    private fun setupFilters(reminders: List<ReminderModel>) {
-
-        val filters = mutableSetOf<String>()
-
-        reminders.map {
-            it.text.split(Regex("\\s+"), 2)[0]
-        }.groupBy { it }.map {
-            FilterCount(it.key, it.value.size)
-        }.sortedByDescending {
-            it.count
-        }.map {
-            it.name
-        }.let {
-            filters.addAll(it)
-        }
-
-        if (filters.isEmpty() && currentFilter.isNotBlank()) {
-            filters.add(currentFilter)
-        }
-
-        filterAdapter.items = filters.toMutableList()
     }
 
     private fun filterBy(filter: String) {
