@@ -18,6 +18,7 @@ class FilterManager : PoolMember() {
                         it.startsWith(ReminderModel_.text, currentFilter)
                     }
                 }
+                .sort { o1, o2 -> o1.date.compareTo(o2.date) }
                 .build()
                 .find())
     }
