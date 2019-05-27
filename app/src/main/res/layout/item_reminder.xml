@@ -7,39 +7,52 @@
         android:layout_height="wrap_content">
 
     <TextView
-            android:id="@+id/sectionHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingTop="@dimen/padDouble"
-            android:paddingBottom="@dimen/pad"
-            android:paddingStart="@dimen/padDouble"
-            android:textColor="@color/textHeader"
-            android:textSize="@dimen/textSizeSmall"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="Today"/>
+        android:id="@+id/sectionHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="@dimen/padDouble"
+        android:paddingBottom="@dimen/pad"
+        android:paddingStart="@dimen/padDouble"
+        android:textColor="@color/textHeader"
+        android:textSize="@dimen/textSizeSmall"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Today" />
 
-    <View android:id="@+id/divider"
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          app:layout_constraintTop_toBottomOf="@+id/sectionHeader"
-          android:background="@color/background"/>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@+id/sectionHeader"
+        android:background="@color/background"/>
+
+    <View
+        android:id="@+id/isTodayIndicator"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/elevation"
+        app:layout_constraintTop_toTopOf="@+id/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="@dimen/padDouble"
-            android:background="@color/white"
-            android:elevation="@dimen/elevation"
-            android:textColor="@color/text"
-            android:textSize="@dimen/textSize"
-            tools:text="Jacob loves Mai"/>
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintStart_toEndOf="@+id/isTodayIndicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/padDouble"
+        android:background="@color/white"
+        android:elevation="@dimen/elevation"
+        android:textColor="@color/text"
+        android:textSize="@dimen/textSize"
+        tools:text="Jacob loves Mai"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

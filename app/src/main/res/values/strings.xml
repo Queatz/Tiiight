@@ -16,6 +16,7 @@
     <string name="reminder_time_in_one_hour">In 1 hour</string>
     <string name="reminder_time_tonight">Tonight</string>
     <string name="reminder_time_tomorrow">Tomorrow</string>
+    <string name="reminder_time_tomorrow_night">Tomorrow night</string>
     <string name="reminder_time_in_2_days">In 2 days</string>
     <string name="reminder_time_next_weekend">Next weekend</string>
     <string name="reminder_time_next_monday">Next Monday</string>
@@ -27,4 +28,5 @@
     <string name="marked_done">Marked done</string>
     <string name="share_to">Share to</string>
     <string name="next_week">Next week</string>
+    <string name="in_the_past">In the past</string>
 </resources>

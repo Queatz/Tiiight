@@ -1,32 +1,62 @@
 
 
+# Incoming
+
+ [ ] Expiration date on tasks, the vanish after that time
+     "Expires in 43 days"
+
+
+ [ ] Send to top
+ [ ] Calendar / Timeframe mode
+
+ [ ] Progress tracking
+ [ ] Status
+ [ ] Notes
+ [ ] Ingredients of initiative
+ [ ] Initiatives / High level goals
+ [ ] Group / Categorization / Labels + About (alternate: Epic)
+ [ ] Expiration
+ [ ] Measure inititives by X
+ [ ] Start / stop / pause
+
+ [ ] Info card
+    [ ] Created date
+    [ ] Number of reschedules
+    [ ] Number of edits
+    [ ] Etc.
+
+
 # NEXT
 
+ [ ] P0 Auto-suggested to add labels to front of reminder based on most common words
+    [ ] Another ObjectBox table for word scoring
+    [ ] Filter reminders by most common words
+ [ ] P2 Auto filters based on most common words
 
+ [ ] P4 Search all
+ [ ] P4 Reminder saved | edit snackbar (if it has been edited)
 
 # TODO
+
+ [ ] P1 Dot next to unseen past reminders for easy identification
+ [ ] P1 Redraw on activate (if >1 minute has passed to update headers)
+ [ ] P1 Redraw every ~30 seconds
 
  [ ] P1 Most recently updated at top, not due date
 
  [ ] P1 Time tracking addon / ongoing notification to stop it
 
+ [ ] P2 Choose which times show up + custom
  [ ] P2 Sticky service to ensure alarms are set
- [x] P2 Only schedule alarms that are 1 week out, not further
  [ ] P2 Change morning and afternoon in settings
- [ ] P2 Auto filters based on most common words
- [ ] P2 Auto-suggested to add labels to front of reminder based on most common words
-    [ ] Another ObjectBox table for word scoring
 
  [ ] P3 Select multiple -> move / done
  [ ] P3 Stats: stats, num delays, num done, avg time
- [ ] P3 Show pink left border for today items (setting)
  [ ] P3 Repeating reminders
  [ ] P3 Slide action settings = edit, archive, share
  [ ] P3 Null state for no reminders "No reminders" gray text
 
  [ ] P4 bell on / off for reminders
- [ ] P4 Search all
- [ ] P4 Reminder saved | edit snackbar (if it has been edited)
 
 # TODO Web
 

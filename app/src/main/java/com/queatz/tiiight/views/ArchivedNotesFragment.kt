@@ -51,9 +51,6 @@ class ArchivedNotesFragment : Fragment() {
                 .show()
         }, {
             edit(it, true)
-        }, { reminder, other ->
-            reminder.date = other.date
-            app.on(DataManager::class).box(ReminderModel::class).put(reminder)
         })).attachToRecyclerView(reminders)
 
         remindersSubscription = app.on(DataManager::class).box(ReminderModel::class).query()

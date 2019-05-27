@@ -60,6 +60,17 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
             holder.sectionHeader.text = header
         }
 
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+
+        holder.isTodayIndicator.visibility = if (today.before(reminder.date) && Date().after(reminder.date))
+            View.VISIBLE
+        else
+            View.GONE
     }
 
     private fun showSectionHeader(items: List<ReminderModel>, position: Int): Boolean {
@@ -71,6 +82,17 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
     private fun getSectionHeader(reminder: ReminderModel): String {
         if (reminder.done) {
             return resources.getString(R.string.archive)
+        }
+
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.time
+
+        if (today.after(reminder.date)) {
+            return resources.getString(R.string.in_the_past)
         }
 
         val now = Date()
@@ -113,6 +135,7 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val text = itemView.text!!
+        val isTodayIndicator = itemView.isTodayIndicator!!
         val sectionHeader = itemView.sectionHeader!!
     }
 }
@@ -120,20 +143,16 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
 class SwipeOptions constructor(private val adapter: ReminderAdapter,
                                private val resources: Resources,
                                private val doneCallback: (ReminderModel) -> Unit,
-                               private val modifyCallback: (ReminderModel) -> Unit,
-                               private val moveCallback: (reminder: ReminderModel, other: ReminderModel) -> Unit) :
-        ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.START or ItemTouchHelper.END) {
+                               private val modifyCallback: (ReminderModel) -> Unit) :
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
 
     private val paint = Paint()
 
-    override fun onMove(recyclerView: RecyclerView, holder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) = true
-
-    override fun onMoved(recyclerView: RecyclerView, holder: RecyclerView.ViewHolder, fromPos: Int, target: RecyclerView.ViewHolder, toPos: Int, x: Int, y: Int) {
-        val item = adapter.items[holder.adapterPosition]
-        val other = adapter.items[target.adapterPosition]
-        moveCallback.invoke(item, other)
-        super.onMoved(recyclerView, holder, fromPos, target, toPos, x, y)
-    }
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ) = false
 
     override fun onSwiped(holder: RecyclerView.ViewHolder, direction: Int) {
         val item = adapter.items[holder.adapterPosition]

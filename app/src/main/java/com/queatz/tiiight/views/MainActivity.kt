@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.AlarmManager
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
     private var settingsButton: MenuItem? = null
     private var shareButton: MenuItem? = null
     private lateinit var adapter: ReminderAdapter
+    private lateinit var filterAdapter: FilterAdapter
+
+    private var currentFilter: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +44,10 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             newReminder()
         }
+
+        filterAdapter = FilterAdapter { filterBy(it) }
+        filters.adapter = filterAdapter
+        filters.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
         adapter = ReminderAdapter({ edit(it) }, resources)
         reminders.adapter = adapter
@@ -59,21 +67,61 @@ class MainActivity : AppCompatActivity() {
                 .show()
         }, {
             edit(it, true)
-        }, { reminder, other ->
-            reminder.date = other.date
-            app.on(DataManager::class).box(ReminderModel::class).put(reminder)
         })).attachToRecyclerView(reminders)
+
+        subscribe()
+
+        intent?.let { onNewIntent(it) }
+    }
+
+    private fun subscribe() {
+        remindersSubscription?.cancel()
 
         remindersSubscription = app.on(DataManager::class).box(ReminderModel::class).query()
             .notEqual(ReminderModel_.text, "")
             .equal(ReminderModel_.done, false)
+            .also {
+                if (currentFilter.isNotBlank()) {
+                    it.startsWith(ReminderModel_.text, currentFilter)
+                }
+            }
             .sort { o1, o2 -> o1.date.compareTo(o2.date) }
             .build()
             .subscribe()
             .on(AndroidScheduler.mainThread())
-            .observer { adapter.items = it }
+            .observer {
+                adapter.items = it
+                setupFilters(it)
+            }
+    }
 
-        intent?.let { onNewIntent(it) }
+    private fun setupFilters(reminders: List<ReminderModel>) {
+
+        val filters = mutableSetOf<String>()
+
+        reminders.map {
+            it.text.split(Regex("\\s+"), 2)[0]
+        }.groupBy { it }.map {
+            FilterCount(it.key, it.value.size)
+        }.sortedByDescending {
+            it.count
+        }.map {
+            it.name
+        }.let {
+            filters.addAll(it)
+        }
+
+        filterAdapter.items = filters.toMutableList()
+    }
+
+    private fun filterBy(filter: String) {
+        currentFilter = if (currentFilter == filter) {
+            ""
+        } else {
+            filter
+        }
+
+        subscribe()
     }
 
     override fun onResume() {
@@ -136,16 +184,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun newReminder() {
-        val reminder = ReminderModel("", false, getNextDate())
+        val reminder = ReminderModel("", false, Date())
         app.on(DataManager::class).box(ReminderModel::class).put(reminder)
         edit(reminder)
-    }
-
-    private fun getNextDate(): Date {
-        val date = adapter.items.firstOrNull()?.date?.let { Date(it.time - 1) }
-        val now = Date()
-
-        return if (date == null || date.after(now)) now else date
     }
 
     private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {
@@ -189,3 +230,5 @@ interface ShareableFragment {
 }
 
 val app = 0
+
+data class FilterCount(val name: String, val count: Int)
