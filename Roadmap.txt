@@ -30,8 +30,7 @@
 
  [ ] P0 Auto-suggested to add labels to front of reminder based on most common words
     [ ] Another ObjectBox table for word scoring
-    [ ] Filter reminders by most common words
- [ ] P2 Auto filters based on most common words
+ [X] P2 Auto filters based on most common words
 
  [ ] P4 Search all
  [ ] P4 Reminder saved | edit snackbar (if it has been edited)

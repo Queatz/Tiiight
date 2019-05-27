@@ -111,6 +111,10 @@ class MainActivity : AppCompatActivity() {
             filters.addAll(it)
         }
 
+        if (filters.isEmpty() && currentFilter.isNotBlank()) {
+            filters.add(currentFilter)
+        }
+
         filterAdapter.items = filters.toMutableList()
     }
 
