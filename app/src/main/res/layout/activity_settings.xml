@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/background"
         android:clickable="true">
 
@@ -29,5 +30,18 @@
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:drawableTint="@color/textHeader"
             android:text="@string/send_feedback"/>
+
+    <Switch
+            android:id="@+id/nightModeAlwaysSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/sendFeedback"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_margin="@dimen/padDouble"
+            android:padding="@dimen/pad"
+            android:switchPadding="@dimen/padDouble"
+            android:text="@string/night_mode" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

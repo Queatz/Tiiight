@@ -5,5 +5,6 @@ import java.util.*
 
 @Entity
 data class SettingsModel constructor(
-    var lastDate: Date = Date()
+    var lastDate: Date = Date(),
+    var nightModeAlways: Boolean = false
 ) : BaseModel()

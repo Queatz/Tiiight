@@ -41,7 +41,7 @@
     },
     {
       "id": "2:6873454790557635974",
-      "lastPropertyId": "4:5769408272276524617",
+      "lastPropertyId": "5:8442291202666885005",
       "name": "SettingsModel",
       "properties": [
         {
@@ -59,6 +59,10 @@
         {
           "id": "4:5769408272276524617",
           "name": "lastDate"
+        },
+        {
+          "id": "5:8442291202666885005",
+          "name": "nightModeAlways"
         }
       ],
       "relations": []

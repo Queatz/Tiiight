@@ -5,6 +5,7 @@
  [ ] Expiration date on tasks, the vanish after that time
      "Expires in 43 days"
 
+ [ ] Goals
 
  [ ] Send to top
  [ ] Calendar / Timeframe mode
@@ -12,7 +13,10 @@
  [ ] Progress tracking
  [ ] Status
    [ ] Not Started / Started / Paused / Stopped / Done
- [ ] Notes
+ [ ] Notes (timeline of reminder)
+
+
+ [ ] Roadmap / Goal time estimates / Calendar view (Day, Week, Monthly, Years)
  [ ] Ingredients of initiative (checklist-ish)
  [?] Initiatives / High level goals
  [?] Group / Categorization / Labels + About (alternate: Epic)
@@ -25,12 +29,19 @@
     [ ] Number of edits
     [ ] Etc.
 
+ [ ] Goals
+    [ ] Goal overview of everything that went into completing that goal with timeline
+    [ ] Link reminder to overarching goal
+
 # TODO NEXT
 
+ [ ] P2 Prefill first characters when creating new with label selected
  [ ] P4 Search all
  [ ] P4 Reminder saved | edit snackbar (if it has been edited)
 
 # TODO
+
+ [ ] P2 Done from notification
 
  [ ] P1 Dot next to unseen past reminders for easy identification
  [ ] P1 Redraw on activate (if >1 minute has passed to update headers)

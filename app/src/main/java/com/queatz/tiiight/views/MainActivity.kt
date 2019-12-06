@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.queatz.tiiight.App.Companion.app
 import com.queatz.tiiight.R
-import com.queatz.tiiight.managers.AlarmManager
-import com.queatz.tiiight.managers.ContextManager
-import com.queatz.tiiight.managers.DataManager
-import com.queatz.tiiight.managers.FilterManager
+import com.queatz.tiiight.managers.*
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.models.ReminderModel_
 import io.objectbox.android.AndroidScheduler
@@ -37,10 +35,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        app<ContextManager>().context = this
+
+        app<SettingsManager>().listener = {
+            delegate.localNightMode =
+                if (it.nightModeAlways) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        app<ContextManager>().context = this
 
         fab.setOnClickListener { view ->
             newReminder()
