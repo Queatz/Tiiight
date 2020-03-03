@@ -10,31 +10,40 @@
       "properties": [
         {
           "id": "1:6154981951218694287",
-          "name": "objectBoxId"
+          "name": "objectBoxId",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:3841388849788786773",
-          "name": "created"
+          "name": "created",
+          "type": 10
         },
         {
           "id": "3:4764223706360932524",
-          "name": "updated"
+          "name": "updated",
+          "type": 10
         },
         {
           "id": "4:7422088948701066084",
-          "name": "text"
+          "name": "text",
+          "type": 9
         },
         {
           "id": "5:83635661551134477",
-          "name": "done"
+          "name": "done",
+          "type": 1,
+          "flags": 4
         },
         {
           "id": "6:1119310439788978171",
-          "name": "date"
+          "name": "date",
+          "type": 10
         },
         {
           "id": "7:2542456685600316806",
-          "name": "doneDate"
+          "name": "doneDate",
+          "type": 10
         }
       ],
       "relations": []
@@ -46,23 +55,30 @@
       "properties": [
         {
           "id": "1:2731502656582069786",
-          "name": "objectBoxId"
+          "name": "objectBoxId",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:854844617381630665",
-          "name": "created"
+          "name": "created",
+          "type": 10
         },
         {
           "id": "3:164063311344127353",
-          "name": "updated"
+          "name": "updated",
+          "type": 10
         },
         {
           "id": "4:5769408272276524617",
-          "name": "lastDate"
+          "name": "lastDate",
+          "type": 10
         },
         {
           "id": "5:8442291202666885005",
-          "name": "nightModeAlways"
+          "name": "nightModeAlways",
+          "type": 1,
+          "flags": 4
         }
       ],
       "relations": []
@@ -72,8 +88,8 @@
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
-  "modelVersion": 4,
-  "modelVersionParserMinimum": 4,
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
   "retiredPropertyUids": [],

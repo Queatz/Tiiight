@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.queatz.tiiight.App.Companion.app
+import com.queatz.tiiight.DoneReceiver.Companion.REMINDER_ID
 import com.queatz.tiiight.R
 import com.queatz.tiiight.managers.*
 import com.queatz.tiiight.models.ReminderModel
@@ -132,7 +133,15 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         when (intent?.action) {
-            Intent.ACTION_EDIT -> {
+            Intent.ACTION_VIEW -> {
+                val reminderId = intent.getLongExtra(REMINDER_ID, -1)
+
+                if (reminderId != -1L) {
+                    app<DataManager>().box(ReminderModel::class).get(reminderId)?.let {
+                        edit(it, true)
+                    }
+                }
+            } Intent.ACTION_EDIT -> {
                 newReminder()
             }
             Intent.ACTION_SEND -> {

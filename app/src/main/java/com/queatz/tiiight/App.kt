@@ -1,11 +1,11 @@
 package com.queatz.tiiight
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import com.queatz.on.On
 import com.queatz.tiiight.managers.AppManager
 import com.queatz.tiiight.managers.ShortcutManager
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     companion object {
         val app = On()

@@ -2,6 +2,24 @@
 
 # Incoming
 
+
+ [ ] Done or Edit from notification
+
+ [ ] P2 Done from notification
+
+ [ ] Done from itself
+
+
+
+readonly web view
+rate commitment level
+suggestion commitment level
+ppl suggest changes
+bottom tray overlay on home screen
+long press multi select / done / snooze
+
+ [ ] Search
+
  [ ] Expiration date on tasks, the vanish after that time
      "Expires in 43 days"
 
@@ -40,8 +58,6 @@
  [ ] P4 Reminder saved | edit snackbar (if it has been edited)
 
 # TODO
-
- [ ] P2 Done from notification
 
  [ ] P1 Dot next to unseen past reminders for easy identification
  [ ] P1 Redraw on activate (if >1 minute has passed to update headers)

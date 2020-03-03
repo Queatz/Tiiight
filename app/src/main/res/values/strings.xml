@@ -31,4 +31,6 @@
     <string name="in_the_past">In the past</string>
     <string name="unarchived">Unarchived</string>
     <string name="night_mode">Night mode</string>
+    <string name="done">Done</string>
+    <string name="snooze">Snooze</string>
 </resources>

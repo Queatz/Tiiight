@@ -31,6 +31,8 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".DoneReceiver" android:exported="false" />
+
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
