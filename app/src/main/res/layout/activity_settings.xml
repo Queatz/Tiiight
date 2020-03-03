@@ -15,8 +15,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/padDouble"
             android:drawablePadding="@dimen/pad"
-            android:drawableStart="@drawable/ic_archive_black_24dp"
-            android:drawableTint="@color/white"
+            android:drawableStart="@drawable/ic_archive_white_24dp"
             android:text="@string/archived_notes"/>
 
     <Button style="@android:style/Widget.Material.Button"

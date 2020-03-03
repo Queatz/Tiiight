@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     private var remindersSubscription: DataSubscription? = null
     private var settingsButton: MenuItem? = null
     private var shareButton: MenuItem? = null
+    private var unarchiveButton: MenuItem? = null
+    private var archiveButton: MenuItem? = null
     private lateinit var adapter: ReminderAdapter
     private lateinit var filterAdapter: FilterAdapter
 
@@ -48,10 +50,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-
-        fab.setOnClickListener { view ->
-            newReminder()
-        }
+        fab.setOnClickListener { newReminder() }
 
         filterAdapter = FilterAdapter { filterBy(it) }
         filters.adapter = filterAdapter
@@ -139,6 +138,7 @@ class MainActivity : AppCompatActivity() {
                 if (reminderId != -1L) {
                     app<DataManager>().box(ReminderModel::class).get(reminderId)?.let {
                         edit(it, true)
+                        app<NotificationManager>().dismiss(it)
                     }
                 }
             } Intent.ACTION_EDIT -> {
@@ -163,8 +163,12 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_main, menu)
         settingsButton = menu.findItem(R.id.action_settings)
         shareButton = menu.findItem(R.id.action_share)
+        unarchiveButton = menu.findItem(R.id.action_unarchive)
+        archiveButton = menu.findItem(R.id.action_archive)
         settingsButton?.isVisible = supportFragmentManager.backStackEntryCount <= 0
         shareButton?.isVisible = (getTopFragment() is ShareableFragment)
+        unarchiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showUnarchive() ?: false
+        archiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showArchive() ?: false
 
         return true
     }
@@ -180,7 +184,15 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_share -> {
-                (getTopFragment() as ShareableFragment).onShare()
+                (getTopFragment() as? ShareableFragment)?.onShare()
+                true
+            }
+            R.id.action_archive -> {
+                (getTopFragment() as? ShareableFragment)?.onArchive()
+                true
+            }
+            R.id.action_unarchive -> {
+                (getTopFragment() as? ShareableFragment)?.onUnarchive()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -231,6 +243,10 @@ class MainActivity : AppCompatActivity() {
 
 interface ShareableFragment {
     fun onShare()
+    fun onArchive()
+    fun onUnarchive()
+    fun showUnarchive(): Boolean
+    fun showArchive(): Boolean
 }
 
 data class FilterCount(val name: String, val count: Int)

@@ -37,7 +37,7 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
             diffResult.dispatchUpdatesTo(this)
         }
 
-    var mainActionIconResId: Int = R.drawable.ic_check_black_24dp
+    var mainActionIconResId: Int = R.drawable.ic_check_white_24dp
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(

@@ -32,7 +32,7 @@ class ArchivedNotesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val adapter = ReminderAdapter({ edit(it) }, resources)
-        adapter.mainActionIconResId = R.drawable.ic_unarchive_black_24dp
+        adapter.mainActionIconResId = R.drawable.ic_unarchive_white_24dp
         reminders.adapter = adapter
         reminders.layoutManager = LinearLayoutManager(context)
 

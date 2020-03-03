@@ -33,4 +33,6 @@
     <string name="night_mode">Night mode</string>
     <string name="done">Done</string>
     <string name="snooze">Snooze</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_unarchive">Unarchive</string>
 </resources>

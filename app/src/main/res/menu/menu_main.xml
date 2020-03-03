@@ -6,10 +6,20 @@
           android:title="@string/action_settings"
           android:orderInCategory="100"
           android:icon="@drawable/ic_settings_white_24dp"
-          app:showAsAction="always"/>
+          app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_share"
           android:title="@string/action_settings"
           android:orderInCategory="90"
           android:icon="@drawable/ic_share_white_24dp"
-          app:showAsAction="always"/>
+          app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_archive"
+            android:title="@string/action_archive"
+            android:orderInCategory="80"
+            android:icon="@drawable/ic_check_white_24dp"
+            app:showAsAction="ifRoom"/>
+    <item android:id="@+id/action_unarchive"
+            android:title="@string/action_unarchive"
+            android:orderInCategory="70"
+            android:icon="@drawable/ic_unarchive_white_24dp"
+            app:showAsAction="ifRoom"/>
 </menu>

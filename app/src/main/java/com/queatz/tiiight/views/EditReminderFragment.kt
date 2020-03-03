@@ -112,6 +112,30 @@ class EditReminderFragment : Fragment(), ShareableFragment {
         }
     }
 
+    override fun onArchive() {
+        reminder?.let {
+            it.done = true
+            app<DataManager>().box(ReminderModel::class).put(it)
+            app<AlarmManager>().cancel(it)
+        }
+
+        view?.post { activity?.onBackPressed() }
+    }
+
+    override fun onUnarchive() {
+        reminder?.let {
+            it.done = false
+            app<DataManager>().box(ReminderModel::class).put(it)
+            app<AlarmManager>().schedule(it)
+        }
+
+        view?.post { activity?.onBackPressed() }
+    }
+
+    override fun showUnarchive() = reminder?.done ?: false
+
+    override fun showArchive() = reminder?.done?.not() ?: false
+
     private fun setReminderId(id: Long) {
         reminder = app<DataManager>().box(ReminderModel::class).get(id)
         reminder?.let {
