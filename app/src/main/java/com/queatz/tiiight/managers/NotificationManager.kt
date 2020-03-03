@@ -43,10 +43,10 @@ class NotificationManager constructor(private val on: On) {
                 .createNotificationChannel(channel)
         }
 
-        val doneIndent = PendingIntent.getBroadcast(on<AppManager>().app, 0,
-            Intent(on<AppManager>().app, DoneReceiver::class.java).putExtra(REMINDER_ID, reminder.objectBoxId), 0)
-        val snoozeIndent = PendingIntent.getActivity(on<AppManager>().app, 0,
-            Intent(on<AppManager>().app, MainActivity::class.java).setAction(Intent.ACTION_VIEW).putExtra(REMINDER_ID, reminder.objectBoxId), 0)
+        val doneIndent = PendingIntent.getBroadcast(on<AppManager>().app, REQUEST_CODE_NOTIFICATION,
+            Intent(on<AppManager>().app, DoneReceiver::class.java).putExtra(REMINDER_ID, reminder.objectBoxId), PendingIntent.FLAG_UPDATE_CURRENT)
+        val snoozeIndent = PendingIntent.getActivity(on<AppManager>().app, REQUEST_CODE_NOTIFICATION,
+            Intent(on<AppManager>().app, MainActivity::class.java).setAction(Intent.ACTION_VIEW).putExtra(REMINDER_ID, reminder.objectBoxId), PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notification = NotificationCompat.Builder(on<AppManager>().app, on<AppManager>().app.getString(R.string.tiiight_notifications))
             .setSmallIcon(R.drawable.ic_check_circle_white_24dp)
