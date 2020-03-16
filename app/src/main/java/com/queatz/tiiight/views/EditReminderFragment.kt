@@ -115,6 +115,7 @@ class EditReminderFragment : Fragment(), ShareableFragment {
     override fun onArchive() {
         reminder?.let {
             it.done = true
+            it.doneDate = Date()
             app<DataManager>().box(ReminderModel::class).put(it)
             app<AlarmManager>().cancel(it)
         }

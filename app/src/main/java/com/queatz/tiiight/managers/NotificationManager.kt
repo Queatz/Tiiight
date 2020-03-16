@@ -21,14 +21,13 @@ class NotificationManager constructor(private val on: On) {
 
     companion object {
         private const val NOTIFICATION_ID = 0
-        private const val REQUEST_CODE_NOTIFICATION = 101
     }
 
     fun notify(reminder: ReminderModel) {
         val intent = Intent(on<AppManager>().app, MainActivity::class.java)
         val contentIntent = PendingIntent.getActivity(
             on<AppManager>().app,
-            REQUEST_CODE_NOTIFICATION,
+            reminder.objectBoxId.toInt(),
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -43,10 +42,10 @@ class NotificationManager constructor(private val on: On) {
                 .createNotificationChannel(channel)
         }
 
-        val doneIndent = PendingIntent.getBroadcast(on<AppManager>().app, REQUEST_CODE_NOTIFICATION,
-            Intent(on<AppManager>().app, DoneReceiver::class.java).putExtra(REMINDER_ID, reminder.objectBoxId), PendingIntent.FLAG_UPDATE_CURRENT)
-        val snoozeIndent = PendingIntent.getActivity(on<AppManager>().app, REQUEST_CODE_NOTIFICATION,
-            Intent(on<AppManager>().app, MainActivity::class.java).setAction(Intent.ACTION_VIEW).putExtra(REMINDER_ID, reminder.objectBoxId), PendingIntent.FLAG_UPDATE_CURRENT)
+        val doneIndent = PendingIntent.getBroadcast(on<AppManager>().app, reminder.objectBoxId.toInt(),
+            Intent(on<AppManager>().app, DoneReceiver::class.java).putExtra(REMINDER_ID, reminder.objectBoxId), PendingIntent.FLAG_CANCEL_CURRENT)
+        val snoozeIndent = PendingIntent.getActivity(on<AppManager>().app, reminder.objectBoxId.toInt(),
+            Intent(on<AppManager>().app, MainActivity::class.java).setAction(Intent.ACTION_VIEW).putExtra(REMINDER_ID, reminder.objectBoxId), PendingIntent.FLAG_CANCEL_CURRENT)
 
         val notification = NotificationCompat.Builder(on<AppManager>().app, on<AppManager>().app.getString(R.string.tiiight_notifications))
             .setSmallIcon(R.drawable.ic_check_circle_white_24dp)

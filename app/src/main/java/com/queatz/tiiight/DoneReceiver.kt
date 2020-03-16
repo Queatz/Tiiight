@@ -9,6 +9,7 @@ import com.queatz.tiiight.managers.DataManager
 import com.queatz.tiiight.managers.NotificationManager
 import com.queatz.tiiight.managers.ToastManager
 import com.queatz.tiiight.models.ReminderModel
+import java.util.*
 
 
 class DoneReceiver : BroadcastReceiver() {
@@ -29,6 +30,7 @@ class DoneReceiver : BroadcastReceiver() {
 
             on<DataManager>().box(ReminderModel::class).get(reminderId)?.let {
                 it.done = true
+                it.doneDate = Date()
                 on<DataManager>().box(ReminderModel::class).put(it)
                 on<ToastManager>().show(R.string.marked_done)
 
