@@ -210,6 +210,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     internal fun showFragment(fragment: Fragment, name: String? = null) {
+        while (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        }
+
         supportFragmentManager.beginTransaction()
             .addToBackStack(name)
             .add(R.id.content, fragment)

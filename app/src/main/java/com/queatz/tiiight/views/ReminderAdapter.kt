@@ -51,11 +51,10 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
         holder.text.text = reminder.text
         holder.text.setOnClickListener { openCallback.invoke(reminder) }
 
-        val header = getSectionHeader(reminder)
-
         if (showSectionHeader(items, position)) {
             holder.sectionHeader.visibility = View.GONE
         } else {
+            val header = getSectionHeader(reminder)
             holder.sectionHeader.visibility = View.VISIBLE
             holder.sectionHeader.text = header
         }
