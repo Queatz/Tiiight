@@ -24,14 +24,6 @@ class NotificationManager constructor(private val on: On) {
     }
 
     fun notify(reminder: ReminderModel) {
-        val intent = Intent(on<AppManager>().app, MainActivity::class.java)
-        val contentIntent = PendingIntent.getActivity(
-            on<AppManager>().app,
-            reminder.objectBoxId.toInt(),
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 on<AppManager>().app.getString(R.string.tiiight_notifications),
@@ -53,7 +45,7 @@ class NotificationManager constructor(private val on: On) {
             .setAutoCancel(true)
             .addAction(0, on<AppManager>().app.getString(R.string.done), doneIndent)
             .addAction(0, on<AppManager>().app.getString(R.string.snooze), snoozeIndent)
-            .setContentIntent(contentIntent)
+            .setContentIntent(snoozeIndent)
             .setDefaults(Notification.DEFAULT_ALL)
             .setColor(on<AppManager>().app.resources.getColor(R.color.colorPrimary))
             .build()

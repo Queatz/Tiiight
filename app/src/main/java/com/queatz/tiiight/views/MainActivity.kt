@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (reminderId != -1L) {
                     app<DataManager>().box(ReminderModel::class).get(reminderId)?.let {
-                        edit(it, true)
+                        edit(it, true, clearBackStack = true)
                         app<NotificationManager>().dismiss(it)
                     }
                 }
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                 intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
                     val reminder = ReminderModel(it, false, Date())
                     app<DataManager>().box(ReminderModel::class).put(reminder)
-                    edit(reminder)
+                    edit(reminder, clearBackStack = true)
                 }
             }
         }
@@ -165,8 +165,8 @@ class MainActivity : AppCompatActivity() {
         shareButton = menu.findItem(R.id.action_share)
         unarchiveButton = menu.findItem(R.id.action_unarchive)
         archiveButton = menu.findItem(R.id.action_archive)
+        shareButton?.isVisible = (getTopFragment() is SettingsFragment).not()
         settingsButton?.isVisible = supportFragmentManager.backStackEntryCount <= 0
-        shareButton?.isVisible = (getTopFragment() is ShareableFragment)
         unarchiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showUnarchive() ?: false
         archiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showArchive() ?: false
 
@@ -184,7 +184,9 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_share -> {
-                (getTopFragment() as? ShareableFragment)?.onShare()
+                (getTopFragment() as? ShareableFragment)?.onShare() ?: run {
+                    onShare()
+                }
                 true
             }
             R.id.action_archive -> {
@@ -199,19 +201,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onShare() {
+        adapter.items.map { "[ ] ${it.text}" }.joinToString("\n").let {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, it)
+            startActivity(Intent.createChooser(sharingIntent, resources.getString(R.string.share_to)))
+        }
+    }
+
     private fun newReminder() {
         val reminder = ReminderModel("", false, Date())
         app<DataManager>().box(ReminderModel::class).put(reminder)
         edit(reminder)
     }
 
-    private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {
-        showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit), getString(R.string.edit_reminder))
+    private fun edit(reminder: ReminderModel, quickEdit: Boolean = false, clearBackStack: Boolean = false) {
+        showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit), getString(R.string.edit_reminder), clearBackStack)
     }
 
-    internal fun showFragment(fragment: Fragment, name: String? = null) {
-        while (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
+    internal fun showFragment(fragment: Fragment, name: String? = null, clearBackStack: Boolean = false) {
+        while (clearBackStack && supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStackImmediate()
         }
 
         supportFragmentManager.beginTransaction()
@@ -247,8 +258,8 @@ class MainActivity : AppCompatActivity() {
 
 interface ShareableFragment {
     fun onShare()
-    fun onArchive()
-    fun onUnarchive()
+    fun onArchive() {}
+    fun onUnarchive() {}
     fun showUnarchive(): Boolean
     fun showArchive(): Boolean
 }

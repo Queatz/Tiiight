@@ -1,5 +1,6 @@
 package com.queatz.tiiight.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,11 +19,12 @@ import io.objectbox.reactive.DataSubscription
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
 
-class ArchivedNotesFragment : Fragment() {
+class ArchivedNotesFragment : Fragment(), ShareableFragment {
     companion object {
         fun create() = ArchivedNotesFragment()
     }
 
+    private lateinit var adapter: ReminderAdapter
     private var remindersSubscription: DataSubscription? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
@@ -31,7 +33,7 @@ class ArchivedNotesFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val adapter = ReminderAdapter({ edit(it) }, resources)
+        adapter = ReminderAdapter({ edit(it) }, resources)
         adapter.mainActionIconResId = R.drawable.ic_unarchive_white_24dp
         reminders.adapter = adapter
         reminders.layoutManager = LinearLayoutManager(context)
@@ -71,4 +73,16 @@ class ArchivedNotesFragment : Fragment() {
     private fun edit(reminder: ReminderModel, quickEdit: Boolean = false) {
         (activity as MainActivity).showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit), getString(R.string.edit_reminder))
     }
+
+    override fun onShare() {
+        adapter.items.map { "[x] ${it.text}" }.joinToString("\n").let {
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            sharingIntent.putExtra(Intent.EXTRA_TEXT, it)
+            startActivity(Intent.createChooser(sharingIntent, resources.getString(R.string.share_to)))
+        }
+    }
+
+    override fun showUnarchive() = false
+    override fun showArchive() = false
 }
