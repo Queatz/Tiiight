@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Tiiight</string>
     <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
     <string name="edit_reminder_hint">Set reminder</string>
     <string name="undo">Undo</string>
     <string name="today">Today</string>
