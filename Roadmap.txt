@@ -2,14 +2,19 @@
 
 # Incoming
 
+ [ ] Add multi-leveled Goals
+ [ ] Attach reminders to goals
+ [ ] Repeats option (done = select new time)
+ [ ]
+ [ ] Long press select multiple bulk archive
+ [ ] sweep filtered / all
+ [ ] history of actions and edits on reminders | keep scrolling down
+ [ ]
+ [ ]
 
  [ ] Done or Edit from notification
-
  [ ] P2 Done from notification
-
  [ ] Done from itself
-
-
 
 readonly web view
 rate commitment level
@@ -18,15 +23,11 @@ ppl suggest changes
 bottom tray overlay on home screen
 long press multi select / done / snooze
 
- [ ] Search
-
  [ ] Expiration date on tasks, the vanish after that time
      "Expires in 43 days"
-
- [ ] Goals
+     Counts as a miss
 
  [ ] Send to top
- [ ] Calendar / Timeframe mode
 
  [ ] Progress tracking
  [ ] Status
@@ -35,26 +36,28 @@ long press multi select / done / snooze
 
 
  [ ] Roadmap / Goal time estimates / Calendar view (Day, Week, Monthly, Years)
- [ ] Ingredients of initiative (checklist-ish)
+ [ ] Ingredients of initiative / conglomerate (checklist-ish)
  [?] Initiatives / High level goals
- [?] Group / Categorization / Labels + About (alternate: Epic)
- [ ] Expiration
+ [?] Group / Categorization / Labels + About (alternate: Epic, Feat)
  [ ] Measure inititives by X
 
  [ ] Info card
     [ ] Created date
     [ ] Number of reschedules
     [ ] Number of edits
+    [ ] Number of repeats
     [ ] Etc.
+    [ ] At bottom of reminder screen
 
  [ ] Goals
     [ ] Goal overview of everything that went into completing that goal with timeline
     [ ] Link reminder to overarching goal
+    [ ] Goal health (# of reminders completed on time | underachieving / overachieving)
 
 # TODO NEXT
 
  [ ] P2 Prefill first characters when creating new with label selected
- [ ] P4 Search all
+ [ ] P4 Search reminders / Search archived
  [ ] P4 Reminder saved | edit snackbar (if it has been edited)
 
 # TODO
@@ -78,6 +81,7 @@ long press multi select / done / snooze
  [ ] P3 Null state for no reminders "No reminders" gray text
 
  [ ] P4 bell on / off for reminders
+ [ ] P4 Calendar / Timeframe mode
 
 # TODO Web
 

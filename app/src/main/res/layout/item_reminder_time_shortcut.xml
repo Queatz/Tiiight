@@ -18,7 +18,7 @@
         android:paddingBottom="@dimen/padHalf"
         android:background="?selectableItemBackgroundBorderless"
         android:drawableTop="@drawable/ic_schedule_black_24dp"
-        android:drawableTint="@color/textHeader"
+        android:drawableTint="@color/text"
         android:drawablePadding="@dimen/pad"
         android:text="@string/custom"/>
 

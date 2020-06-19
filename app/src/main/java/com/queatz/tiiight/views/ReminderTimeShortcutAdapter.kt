@@ -41,7 +41,7 @@ class ReminderTimeShortcutAdapter(private val onDate: (Date) -> Unit) : Recycler
         holder.button.setCompoundDrawablesRelativeWithIntrinsicBounds(0, item.iconResId, 0, 0)
 
         for (drawable in holder.button.compoundDrawables) {
-            drawable?.colorFilter = PorterDuffColorFilter(holder.button.resources.getColor(R.color.textHeader), PorterDuff.Mode.SRC_IN)
+            drawable?.colorFilter = PorterDuffColorFilter(holder.button.resources.getColor(R.color.text), PorterDuff.Mode.SRC_IN)
         }
 
         holder.button.text = item.text
