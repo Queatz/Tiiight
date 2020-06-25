@@ -211,7 +211,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun newReminder() {
-        val reminder = ReminderModel("", false, Date())
+        val reminder = ReminderModel(currentFilter.let { if (it.isNotBlank()) "$it " else it }, false, Date())
         app<DataManager>().box(ReminderModel::class).put(reminder)
         edit(reminder)
     }

@@ -23,22 +23,22 @@
             tools:text="Today"
             tools:visibility="visible" />
 
-    <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/background"
-            app:layout_constraintTop_toBottomOf="@+id/sectionHeader" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/reminder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
+            app:layout_constraintTop_toBottomOf="@+id/sectionHeader"
             android:background="@color/white"
             android:elevation="@dimen/elevation">
+
+        <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/background"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <View
                 android:id="@+id/isTodayIndicator"
@@ -68,16 +68,15 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/text"
                 android:elevation="@dimen/elevation"
                 android:padding="@dimen/padDouble"
                 tools:text="5:00AM"
                 tools:visibility="visible"
                 android:visibility="gone"
                 android:textColor="@color/textHeader"
-                android:textSize="@dimen/textSizeSmall"
-                app:layout_constraintBottom_toBottomOf="@+id/text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text" />
+                android:textSize="@dimen/textSizeSmall" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
