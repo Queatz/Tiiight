@@ -15,10 +15,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.queatz.tiiight.R
 import com.queatz.tiiight.models.ReminderModel
 import com.queatz.tiiight.toBitmap
+import com.queatz.tiiight.visible
 import kotlinx.android.synthetic.main.item_reminder.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private val resources: Resources) : RecyclerView.Adapter<ReminderAdapter.ViewHolder>() {
+
+    private val dateFormat = SimpleDateFormat("h:mma", Locale.US)
 
     var items = mutableListOf<ReminderModel>()
         set(value) {
@@ -64,12 +68,19 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
-        }.time
+        }
 
-        holder.isTodayIndicator.visibility = if (today.before(reminder.date) && Date().after(reminder.date))
-            View.VISIBLE
-        else
-            View.GONE
+        val isToday = reminder.date == today.time || (
+                today.time.before(reminder.date) &&
+                today.also { it.add(Calendar.DATE, 1) }.time.after(reminder.date)
+        )
+
+        if (isToday) {
+            holder.time.text = dateFormat.format(reminder.date)
+        }
+
+        holder.time.visible = isToday
+        holder.isTodayIndicator.visible = isToday
     }
 
     private fun showSectionHeader(items: List<ReminderModel>, position: Int): Boolean {
@@ -134,6 +145,7 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
 
     class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val text = itemView.text!!
+        val time = itemView.time!!
         val isTodayIndicator = itemView.isTodayIndicator!!
         val sectionHeader = itemView.sectionHeader!!
     }
@@ -166,18 +178,18 @@ class SwipeOptions constructor(private val adapter: ReminderAdapter,
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (viewHolder != null) {
-            getDefaultUIUtil().onSelected(viewHolder.itemView.text)
+            getDefaultUIUtil().onSelected(viewHolder.itemView.reminder)
         }
     }
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-        getDefaultUIUtil().clearView(viewHolder.itemView.text)
+        getDefaultUIUtil().clearView(viewHolder.itemView.reminder)
     }
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, holder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         val icon: Bitmap
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            val itemView = holder.itemView.text
+            val itemView = holder.itemView.reminder
             val viewRect = RectF(itemView.left.toFloat() + holder.itemView.left,
                 itemView.top.toFloat() + holder.itemView.top,
                 itemView.right.toFloat() + holder.itemView.left,
@@ -214,10 +226,10 @@ class SwipeOptions constructor(private val adapter: ReminderAdapter,
             }
         }
 
-        getDefaultUIUtil().onDraw(c, recyclerView, holder.itemView.text, dX, dY, actionState, isCurrentlyActive)
+        getDefaultUIUtil().onDraw(c, recyclerView, holder.itemView.reminder, dX, dY, actionState, isCurrentlyActive)
     }
 
     override fun onChildDrawOver(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
-        getDefaultUIUtil().onDrawOver(c, recyclerView, viewHolder.itemView.text, dX, dY, actionState, isCurrentlyActive)
+        getDefaultUIUtil().onDrawOver(c, recyclerView, viewHolder.itemView.reminder, dX, dY, actionState, isCurrentlyActive)
     }
 }

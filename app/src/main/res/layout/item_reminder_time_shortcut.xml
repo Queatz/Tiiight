@@ -7,7 +7,7 @@
               android:paddingBottom="@dimen/pad"
               android:orientation="vertical">
 
-    <Button style="@android:style/Widget.Material.Button.Borderless.Colored"
+    <Button style="@android:style/Widget.Material.Button.Borderless"
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
