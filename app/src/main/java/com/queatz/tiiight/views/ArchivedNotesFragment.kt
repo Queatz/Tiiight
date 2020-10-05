@@ -74,6 +74,8 @@ class ArchivedNotesFragment : Fragment(), ShareableFragment {
         (activity as MainActivity).showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit), getString(R.string.edit_reminder))
     }
 
+    override fun showShare() = true
+
     override fun onShare() {
         adapter.items.map { "[x] ${it.text}" }.joinToString("\n").let {
             val sharingIntent = Intent(Intent.ACTION_SEND)

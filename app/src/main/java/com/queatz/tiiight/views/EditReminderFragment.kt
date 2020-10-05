@@ -34,17 +34,20 @@ class EditReminderFragment : Fragment(), ShareableFragment {
     companion object {
         private const val REMINDER_ID = "reminder"
         private const val QUICK_EDIT = "quickEdit"
+        private const val IS_CREATE = "isCreate"
 
-        fun create(id: Long, quickEdit: Boolean): EditReminderFragment {
+        fun create(id: Long, quickEdit: Boolean, isCreate: Boolean = false): EditReminderFragment {
             val fragment = EditReminderFragment()
             fragment.arguments = Bundle()
             fragment.arguments?.putLong(REMINDER_ID, id)
             fragment.arguments?.putBoolean(QUICK_EDIT, quickEdit)
+            fragment.arguments?.putBoolean(IS_CREATE, isCreate)
             return fragment
         }
     }
 
     private var isQuickEdit: Boolean = false
+    private var isCreate: Boolean = false
     private var reminder: ReminderModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
@@ -64,11 +67,11 @@ class EditReminderFragment : Fragment(), ShareableFragment {
         reminderText.showKeyboard(false)
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         arguments?.getLong(REMINDER_ID, -1).takeIf { it != -1L }?.let { setReminderId(it) }
         isQuickEdit = arguments?.getBoolean(QUICK_EDIT, false) ?: false
+        isCreate = arguments?.getBoolean(IS_CREATE, false) ?: false
 
         reminderText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -133,9 +136,9 @@ class EditReminderFragment : Fragment(), ShareableFragment {
         view?.post { activity?.onBackPressed() }
     }
 
-    override fun showUnarchive() = reminder?.done ?: false
-
-    override fun showArchive() = reminder?.done?.not() ?: false
+    override fun showShare() = !isCreate
+    override fun showUnarchive() = !isCreate && reminder?.done ?: false
+    override fun showArchive() = !isCreate && reminder?.done?.not() ?: false
 
     private fun setReminderId(id: Long) {
         reminder = app<DataManager>().box(ReminderModel::class).get(id)
@@ -385,5 +388,6 @@ class EditReminderFragment : Fragment(), ShareableFragment {
 
     private fun showTime(date: Date) {
         reminderDate.text = dateFormat.format(date)
+        reminderText.hint = resources.getString(R.string.edit_reminder_hint, dateFormat.format(date))
     }
 }

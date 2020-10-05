@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         shareButton = menu.findItem(R.id.action_share)
         unarchiveButton = menu.findItem(R.id.action_unarchive)
         archiveButton = menu.findItem(R.id.action_archive)
-        shareButton?.isVisible = (getTopFragment() is SettingsFragment).not()
+        shareButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showShare() ?: false
         settingsButton?.isVisible = supportFragmentManager.backStackEntryCount <= 0
         unarchiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showUnarchive() ?: false
         archiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showArchive() ?: false
@@ -213,11 +213,13 @@ class MainActivity : AppCompatActivity() {
     private fun newReminder() {
         val reminder = ReminderModel(currentFilter.let { if (it.isNotBlank()) "$it " else it }, false, Date())
         app<DataManager>().box(ReminderModel::class).put(reminder)
-        edit(reminder)
+        edit(reminder, isCreate = true)
     }
 
-    private fun edit(reminder: ReminderModel, quickEdit: Boolean = false, clearBackStack: Boolean = false) {
-        showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit), getString(R.string.edit_reminder), clearBackStack)
+    private fun edit(reminder: ReminderModel, quickEdit: Boolean = false, clearBackStack: Boolean = false, isCreate: Boolean = false) {
+        showFragment(EditReminderFragment.create(reminder.objectBoxId, quickEdit, isCreate), getString(
+            if (isCreate) R.string.new_reminder else R.string.edit_reminder
+        ), clearBackStack)
     }
 
     internal fun showFragment(fragment: Fragment, name: String? = null, clearBackStack: Boolean = false) {
@@ -262,6 +264,7 @@ interface ShareableFragment {
     fun onUnarchive() {}
     fun showUnarchive(): Boolean
     fun showArchive(): Boolean
+    fun showShare(): Boolean
 }
 
 data class FilterCount(val name: String, val count: Int)

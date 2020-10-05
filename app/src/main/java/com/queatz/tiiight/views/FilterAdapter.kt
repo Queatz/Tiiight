@@ -39,9 +39,13 @@ class FilterAdapter(
         holder.itemView.filterName.text = filter
 
         holder.itemView.setOnClickListener {
+            holder.selected = !holder.selected
+            holder.itemView.filterName.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, if (holder.selected) R.drawable.ic_baseline_close_24 else 0, 0)
             onClick.invoke(filter)
         }
     }
 }
 
-class FilterViewHolder(view: View) : RecyclerView.ViewHolder(view)
+class FilterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    var selected = false
+}
