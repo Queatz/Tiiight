@@ -1,4 +1,0 @@
-
-Next
-
- [ ] Show next snooze option in notification, i.e. "In the morning"

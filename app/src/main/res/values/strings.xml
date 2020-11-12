@@ -37,4 +37,6 @@
     <string name="action_archive">Archive</string>
     <string name="action_unarchive">Unarchive</string>
     <string name="new_reminder">New reminder</string>
+    <string name="snoozed_until">Snoozed until %1$s</string>
+    <string name="snooze_denied">Snooze denied. Try again.</string>
 </resources>

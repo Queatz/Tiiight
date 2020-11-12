@@ -33,6 +33,7 @@ class ReminderAdapter(private val openCallback: (ReminderModel) -> Unit, private
                 override fun getNewListSize() = value.size
                 override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
                     field[oldItemPosition].text == value[newItemPosition].text &&
+                    field[oldItemPosition].date == value[newItemPosition].date &&
                             getSectionHeader(field[oldItemPosition]) == getSectionHeader(value[newItemPosition]) &&
                             showSectionHeader(field, oldItemPosition) == showSectionHeader(value, newItemPosition)
             })
