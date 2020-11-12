@@ -9,6 +9,7 @@ import com.queatz.tiiight.R
 import kotlinx.android.synthetic.main.item_filter.view.*
 
 class FilterAdapter(
+    private val useSelectionStates: Boolean,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<FilterViewHolder>() {
 
@@ -39,8 +40,16 @@ class FilterAdapter(
         holder.itemView.filterName.text = filter
 
         holder.itemView.setOnClickListener {
-            holder.selected = !holder.selected
-            holder.itemView.filterName.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, if (holder.selected) R.drawable.ic_baseline_close_24 else 0, 0)
+            if (useSelectionStates) {
+                holder.selected = !holder.selected
+                holder.itemView.filterName.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    0,
+                    0,
+                    if (holder.selected) R.drawable.ic_baseline_close_24 else 0,
+                    0
+                )
+            }
+
             onClick.invoke(filter)
         }
     }

@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener { newReminder() }
 
-        filterAdapter = FilterAdapter { filterBy(it) }
+        filterAdapter = FilterAdapter(true) { filterBy(it) }
         filters.adapter = filterAdapter
         filters.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 

@@ -92,7 +92,7 @@ class EditReminderFragment : Fragment(), ShareableFragment {
         reminderTimeShortcuts.layoutManager = GridLayoutManager(context, 3)
 
 
-        filterAdapter = FilterAdapter {
+        filterAdapter = FilterAdapter(false) {
             reminderText.setText(it + " " + reminderText.text)
             reminderText.setSelection(it.length + 1)
         }
