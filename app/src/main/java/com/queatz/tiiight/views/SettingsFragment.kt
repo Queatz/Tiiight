@@ -10,10 +10,15 @@ import com.queatz.tiiight.managers.EmailManager
 import com.queatz.tiiight.managers.SettingsManager
 import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), ShareableFragment {
     companion object {
         fun create() = SettingsFragment()
     }
+
+    override fun onShare() {}
+    override fun showUnarchive() = false
+    override fun showArchive() = false
+    override fun showShare() = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) =
         inflater.inflate(R.layout.activity_settings, container, false)!!

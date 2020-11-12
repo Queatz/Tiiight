@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         shareButton = menu.findItem(R.id.action_share)
         unarchiveButton = menu.findItem(R.id.action_unarchive)
         archiveButton = menu.findItem(R.id.action_archive)
-        shareButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showShare() ?: false
+        shareButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showShare() ?: true
         settingsButton?.isVisible = supportFragmentManager.backStackEntryCount <= 0
         unarchiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showUnarchive() ?: false
         archiveButton?.isVisible = (getTopFragment() as? ShareableFragment)?.showArchive() ?: false
